@@ -6,8 +6,17 @@
         <ul>
           <li><router-link to="/home">Home</router-link></li>
           <li><router-link to="/about">About</router-link></li>
-          <li><router-link to="/home">Option 1</router-link></li>
-          <li><router-link to="/home">Option 2</router-link></li>
+          <li><router-link to="/search">Movie Picker</router-link></li>
+          <li><router-link to="/home">Lists <span class="arrow">▶</span></router-link>
+            <ul class="inner-list">
+              <li><router-link to="/popular">Popular</router-link></li>
+              <li><router-link to="/top">Top Rated</router-link></li>
+              <li><router-link to="/trending">Trending</router-link></li>
+              <li><router-link to="/discover">Discover</router-link></li>
+              <li><router-link to="/upcoming">Upcoming</router-link></li>
+              <li><router-link to="/latest">Latest</router-link></li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <base-button><router-link to="/home">Account</router-link></base-button>
@@ -58,7 +67,13 @@ header {
         li {
           margin-left: 10px;
           margin-right: 10px;
+          .arrow {
+            display: inline-block;
+            color: white;
+            transform: translateX(5px) rotate(90deg);
+          }
           a {
+            text-shadow: 0 0 2px black;
             display: block;
             padding: 10px;
             text-decoration: none;
@@ -72,6 +87,9 @@ header {
                 transform: translateY(0);
                 opacity: 1;
               }
+            &:hover .arrow {
+              color: #EB455F;
+            }
             }
             &::after {
               display: block;
@@ -83,6 +101,22 @@ header {
               opacity: 0;
               transition: transform .2s ease-out, opacity .2s ease-out;
             }
+          }
+        }
+        li:nth-child(4) {
+          &:hover ul.inner-list {
+            transform: translateY(0);
+            z-index: 1;
+          }
+          ul.inner-list {
+            position: absolute;
+            z-index: -1;
+            display: flex;
+            flex-flow: column wrap;
+            background-color: #BAD7E9;
+            border: 1px solid #2B3467;
+            border-top: none;
+            transform: translateY(-100%);
           }
         }
       }

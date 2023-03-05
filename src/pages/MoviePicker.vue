@@ -1,5 +1,7 @@
 <template>
-  <footer>Copyright &copy; 2023 Andrzej Szlachta</footer>
+  <div>
+    <h1>Movie Picker</h1>
+  </div>
 </template>
 
 <script>

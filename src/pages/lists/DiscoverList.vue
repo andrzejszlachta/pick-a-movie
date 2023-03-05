@@ -1,8 +1,11 @@
 <template>
-  <footer>Copyright &copy; 2023 Andrzej Szlachta</footer>
+  <div>
+    <h1>Discover List</h1>
+  </div>
 </template>
 
 <script>
+
 </script>
 
 <style lang="scss" scoped>
