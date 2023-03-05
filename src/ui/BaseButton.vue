@@ -7,24 +7,25 @@
 <style lang="scss">
 button.base-btn {
   font-size: 1.4rem;
-  border: 2px solid white;
+  border: none;
   outline: none;
   padding: 0;
   background-color: transparent;
-  &:hover {
+  &:hover a {
     border-color: #EB455F;
-    a {
-      color: #EB455F;
-    }
+    color: #EB455F;
   }
   a {
     display: block;
+    border: 3px solid white;
     padding: 10px 20px;
     font-family: 'Merriweather', serif;
+    font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 3px;
     text-decoration: none;
     color: white;
+    transition: color .2s ease-out, border-color .2s ease-out;
   }
 }
 </style>
