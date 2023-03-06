@@ -1,6 +1,8 @@
 <template>
   <the-header/>
-  <router-view></router-view>
+  <main>
+    <router-view/>
+  </main>
   <the-footer/>
 </template>
 
@@ -19,9 +21,17 @@ import TheFooter from './components/TheFooter.vue';
 
 html {
   font-family: 'Lato', sans-serif;
-}
-body {
-  margin: 0;
-  padding: 0;
+  body {
+    margin: 0;
+    padding: 0;
+    main {
+      background-color: #2B3467;
+      padding: 20px 0;
+    }
+    .max-width {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+  }
 }
 </style>
