@@ -3,9 +3,10 @@
     <div class="result-container">
       <img :src="'https://image.tmdb.org/t/p/w342' + data.backdrop_path" alt="poster">
       <div class="data">
-        <h2 class="title">{{ data.original_title }}<span v-if="data.adult"> 🔞</span></h2>
-        <p class="release">Release date: {{ data.release_date }}</p>
-        <p class="description">{{ data.overview }}</p>
+        <h2 class="title">{{ data.title }}<span v-if="data.adult"> 🔞</span></h2>
+        <p class="original_title">{{ data.original_title }}</p>
+        <p class="release"><span>Release date: </span>{{ data.release_date }}</p>
+        <span>Overview:</span><p class="description">{{ data.overview }}</p>
         <div class="votes">
           <p>Vote average: {{ data.vote_average }}</p>
           <p>Vote count: {{ data.vote_count }}</p>
@@ -47,6 +48,16 @@ export default {
     align-items: center;
     .data {
       padding-left: 3%;
+      .title {
+        font-family: 'Merriweather', serif;
+        margin-bottom: 0;
+      }
+      .original_title {
+        margin-top: 5px;
+      }
+      .description {
+        margin-top: 0;
+      }
     }
   }
   .buttons-container {

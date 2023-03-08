@@ -17,8 +17,9 @@ const page = ref(1)
 const store = useStore();
 
 onBeforeMount(() => {
-  store.dispatch('getTrendingMoviesList', { part1:'https://api.themoviedb.org/3/movie/popular?api_key=', part2: '&language=en-US&page=', page: page.value, savePath: 'popularList'})
-  console.log(page.value)
+  store.dispatch('getMoviesList', { part1:'https://api.themoviedb.org/3/movie/popular?api_key=', part2: '&language=en-US&page=', page: page.value, savePath: 'popularList'})
+  // console.log(page.value)
+  
 });
 
 </script>
