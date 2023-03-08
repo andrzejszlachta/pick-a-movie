@@ -24,22 +24,15 @@
   </header>
 </template>
 
-<script>
-  export default {
-    
-  }
-</script>
-
 <style lang="scss" scoped>
-
 header {
-  background-color: #BAD7E9;
+  background-color: #2B3467;
   &::after {
     display: block;
     content: '';
     height: 7px;
     background-color: #2B3467;
-    background: linear-gradient(90deg, rgba(186,215,233,1) 0%, rgba(43,52,103,1) 50%, rgba(235,69,95,1) 100%);
+    background: linear-gradient(90deg, rgba(186,215,233,1) 0%, rgba(186,215,233,1) 40%, rgba(235,69,95,1) 60%, rgba(235,69,95,1) 100%);
   }
   .header-container {
     margin: 0 auto;
@@ -113,8 +106,8 @@ header {
             z-index: -1;
             display: flex;
             flex-flow: column wrap;
-            background-color: #BAD7E9;
-            border: 1px solid #2B3467;
+            background-color: #2B3467;
+            border: 1px solid #BAD7E9;
             border-top: none;
             transform: translateY(-100%);
           }
@@ -123,5 +116,4 @@ header {
     }
   }
 }
-
 </style>

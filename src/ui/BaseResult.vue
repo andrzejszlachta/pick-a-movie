@@ -20,8 +20,8 @@
       </div>
     </div>
     <div class="buttons-container">
-      <base-button><router-link to="/">View more</router-link></base-button>
-      <base-button><router-link to="/">Add to Watch List</router-link></base-button>
+      <base-button dark><router-link to="/">View more</router-link></base-button>
+      <base-button dark><router-link to="/">Add to Watch List</router-link></base-button>
     </div>
   </div>
 </template>
@@ -50,15 +50,12 @@ export default {
 
 <style lang="scss" scoped>
 .result {
-  background-color: #BAD7E9;
+  background-color: #FCFFE7;
   padding: 3%;
   margin: 15px 0;
   border-width: 5px;
   border-style: solid;
-  border-left-color: #BAD7E9;
-  border-right-color: #EB455F;
   border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
-  
   .result-container {
     display: flex;
     align-items: center;

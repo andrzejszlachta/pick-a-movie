@@ -1,8 +1,30 @@
 <template>
-  <button class="base-btn">
+  <button class="base-btn" :class="{ dark: dark }">
     <slot></slot>
   </button>
 </template>
+
+<script>
+export default {
+  props: {
+    dark: {
+      type: Boolean,
+      required: false,
+    }
+  },
+  computed: {
+    rating() {
+      if (this.data.vote_average > 7.5) {
+      return 'high'
+      } else if (this.data.vote_average < 5) {
+        return 'low'
+      } else {
+        return ''
+      }
+    },
+  }
+}
+</script>
 
 <style lang="scss">
 button.base-btn {
@@ -14,6 +36,14 @@ button.base-btn {
   &:hover a {
     border-color: #EB455F;
     color: #EB455F;
+  }
+  &.dark a {
+    border-color: #EB455F;
+    color: #EB455F;
+    &:hover {
+      border-color: #2B3467;
+      color: #2B3467;
+    }
   }
   a {
     display: block;
