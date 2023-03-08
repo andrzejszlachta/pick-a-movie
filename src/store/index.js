@@ -23,7 +23,7 @@ export default createStore({
         const error = new Error(responseData.message || 'Failed to fetch data!');
         throw error
       }
-      context.state.genres = responseData
+      context.state.genres = responseData.genres
     },
     async getMoviesList(context, payload) {
       context.dispatch('getGenresList')

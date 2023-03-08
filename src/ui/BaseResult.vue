@@ -3,12 +3,18 @@
     <div class="result-container">
       <img :src="'https://image.tmdb.org/t/p/w342' + data.backdrop_path" alt="poster">
       <div class="data">
-        <h2 class="title">{{ data.title }}<span v-if="data.adult"> 🔞</span></h2>
-        <p class="original_title">{{ data.original_title }}</p>
+        <h2 class="title">{{ data.title }}<span class="year"> ({{ data.release_date.slice(0, 4) }})</span><span v-if="data.adult"> 🔞</span></h2>
+        <p class="original_title" v-if="data.original_language !== 'en'"><span class="lang">{{ data.original_language }} </span>{{ data.original_title }}</p>
+        <div class="badges" v-if="data.genre_ids">
+          <base-badge v-for="badge in data.genre_ids" :key="badge" :badge="badge"></base-badge>
+        </div>
+        <div class="overview">
+          <span>Overview:</span>
+          <p class="description">{{ data.overview }}</p>
+        </div>
         <p class="release"><span>Release date: </span>{{ data.release_date }}</p>
-        <span>Overview:</span><p class="description">{{ data.overview }}</p>
         <div class="votes">
-          <p>Vote average: {{ data.vote_average }}</p>
+          <p>Average rating: <span class="rating" :class="rating">{{ data.vote_average }}</span></p>
           <p>Vote count: {{ data.vote_count }}</p>
         </div>
       </div>
@@ -27,6 +33,17 @@ export default {
       type: Object,
       required: true,
     }
+  },
+  computed: {
+    rating() {
+      if (this.data.vote_average > 7.5) {
+      return 'high'
+      } else if (this.data.vote_average < 5) {
+        return 'low'
+      } else {
+        return ''
+      }
+    }
   }
 }
 </script>
@@ -34,7 +51,6 @@ export default {
 <style lang="scss" scoped>
 .result {
   background-color: #BAD7E9;
-  // border-radius: 25px;
   padding: 3%;
   margin: 15px 0;
   border-width: 5px;
@@ -54,9 +70,35 @@ export default {
       }
       .original_title {
         margin-top: 5px;
+        .lang {
+          text-transform: uppercase;
+          margin-right: 5px;
+          border: 1px solid #2B3467;
+          padding: 2px 4px;
+        }
       }
-      .description {
+      .badges {
+        margin: 30px 0;
+      }
+      .overview {
         margin-top: 0;
+        box-shadow: 0 0 3px 1px #2B3467;
+        padding: 3%;
+      }
+      .votes {
+        .rating {
+          display: inline-block;
+          background-color: rgb(202, 202, 77);
+          color: #fff;
+          padding: 3px 5px;
+          border-radius: 15px;
+          &.high {
+            background-color: rgb(95, 218, 95);
+          }
+          &.low {
+            background-color: #EB455F;
+          }
+        }
       }
     }
   }
