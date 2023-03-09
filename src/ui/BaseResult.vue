@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="buttons-container">
-      <base-button dark><router-link to="/">View more</router-link></base-button>
+      <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
       <base-button dark><router-link to="/">Add to Watch List</router-link></base-button>
     </div>
   </div>
@@ -31,6 +31,10 @@ export default {
   props: {
     data: {
       type: Object,
+      required: true,
+    },
+    id: {
+      type: Number,
       required: true,
     }
   },

@@ -10,6 +10,7 @@ import PopularList from '../pages/lists/PopularList.vue'
 import TopList from '../pages/lists/TopList.vue'
 import TrendingList from '../pages/lists/TrendingList.vue'
 import UpcomingList from '../pages/lists/UpcomingList.vue'
+import ViewDetails from '../pages/ViewDetails.vue'
 
 
 const routes = [
@@ -61,6 +62,12 @@ const routes = [
     path: '/upcoming',
     name: 'upcoming',
     component: UpcomingList
+  },
+  {
+    path: '/details/:id',
+    name: 'details',
+    component: ViewDetails,
+    props: true
   },
   // {
   //   path: '/about',

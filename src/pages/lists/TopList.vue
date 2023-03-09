@@ -2,7 +2,7 @@
   <div class="max-width">
     <h1>Top Rated List</h1>
       <div class="results">
-        <base-result v-for="result in store.state.topList.results" :key="result.id" :data="result"/>
+        <base-result v-for="result in store.state.topList.results" :key="result.id" :data="result" :id="result.id"/>
       </div>
   </div>
 </template>
