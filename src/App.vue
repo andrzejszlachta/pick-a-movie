@@ -13,7 +13,7 @@ import TheFooter from './components/TheFooter.vue';
 </script>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Merriweather:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Acme&family=Lato&family=Merriweather:wght@400;700&display=swap');
 
 *, *::after, *::before {
   box-sizing: border-box;
@@ -21,6 +21,7 @@ import TheFooter from './components/TheFooter.vue';
 
 html {
   font-family: 'Lato', sans-serif;
+  scroll-behavior: smooth;
   body {
     margin: 0;
     padding: 0;
