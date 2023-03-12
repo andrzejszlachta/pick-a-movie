@@ -38,11 +38,11 @@ button.base-btn {
     color: #EB455F;
   }
   &.dark a {
-    border-color: #EB455F;
-    color: #EB455F;
+    border-color: #2B3467;
+    color: #2B3467;
     &:hover {
-      border-color: #2B3467;
-      color: #2B3467;
+      border-color: #EB455F;
+      color: #EB455F;
     }
   }
   a {
