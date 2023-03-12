@@ -33,11 +33,13 @@ button.base-btn {
   outline: none;
   padding: 0;
   background-color: transparent;
-  &:hover a {
+  &:hover a,
+  &:hover span {
     border-color: #EB455F;
     color: #EB455F;
   }
-  &.dark a {
+  &.dark a,
+  &.dark span {
     border-color: #2B3467;
     color: #2B3467;
     &:hover {
@@ -45,7 +47,7 @@ button.base-btn {
       color: #EB455F;
     }
   }
-  a {
+  a, span {
     display: block;
     border: 3px solid white;
     padding: 10px 20px;
@@ -56,6 +58,7 @@ button.base-btn {
     text-decoration: none;
     color: white;
     transition: color .2s ease-out, border-color .2s ease-out;
+    cursor: pointer;
   }
 }
 </style>
