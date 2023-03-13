@@ -214,6 +214,7 @@ async function getDetails() {
       list-style:disc;
     }
     .links li {
+      width:fit-content;
       font-weight: bold;
       font-size: 1.3rem;
       transform-origin: left center;
