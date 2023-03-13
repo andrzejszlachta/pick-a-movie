@@ -16,7 +16,7 @@ const props = defineProps({
 })
 
 const store = useStore()
-const badgeName = store.state.genres.find(obj => obj.id === props.badge).name
+const badgeName = store.state.genres[0].genres.find(obj => obj.id === props.badge).name
 </script>
 
 <style lang="scss" scoped>
