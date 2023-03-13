@@ -4,26 +4,16 @@
   </button>
 </template>
 
-<script>
-export default {
-  props: {
+<script setup>
+import { defineProps } from 'vue';
+
+// eslint-disable-next-line
+const props = defineProps({
     dark: {
       type: Boolean,
       required: false,
     }
-  },
-  computed: {
-    rating() {
-      if (this.data.vote_average > 7.5) {
-      return 'high'
-      } else if (this.data.vote_average < 5) {
-        return 'low'
-      } else {
-        return ''
-      }
-    },
-  }
-}
+  })
 </script>
 
 <style lang="scss">

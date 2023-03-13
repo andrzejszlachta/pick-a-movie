@@ -26,9 +26,10 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
+<script setup>
+import { defineProps, computed } from 'vue';
+
+const props = defineProps({
     data: {
       type: Object,
       required: true,
@@ -37,19 +38,17 @@ export default {
       type: Number,
       required: true,
     }
-  },
-  computed: {
-    rating() {
-      if (this.data.vote_average > 7.5) {
+  })
+
+const rating = computed(()=> {
+      if (props.data.vote_average > 7.5) {
       return 'high'
-      } else if (this.data.vote_average < 5) {
+      } else if (props.data.vote_average < 5) {
         return 'low'
       } else {
         return ''
       }
-    }
-  }
-}
+    })
 </script>
 
 <style lang="scss" scoped>
