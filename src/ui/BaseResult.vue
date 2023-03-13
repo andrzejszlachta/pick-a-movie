@@ -1,21 +1,21 @@
 <template>
   <div class="result">
     <div class="result-container">
-      <img :src="'https://image.tmdb.org/t/p/w342' + data.backdrop_path" alt="poster">
+      <img v-if="data.backdrop_path" :src="'https://image.tmdb.org/t/p/w342' + data.backdrop_path" alt="poster">
       <div class="data">
-        <h2 class="title">{{ data.title }}<span class="year"> ({{ data.release_date.slice(0, 4) }})</span><span v-if="data.adult"> 🔞</span></h2>
-        <p class="original_title" v-if="data.original_language !== 'en'"><span class="lang">{{ data.original_language }} </span>{{ data.original_title }}</p>
+        <h2 class="title" v-if="data.title">{{ data.title }}<span class="year"> ({{ data.release_date.slice(0, 4) }})</span><span v-if="data.adult"> 🔞</span></h2>
+        <p class="original_title" v-if="data.original_language !== 'en' && data.original_title"><span class="lang">{{ data.original_language }} </span>{{ data.original_title }}</p>
         <div class="badges" v-if="data.genre_ids">
           <base-badge v-for="badge in data.genre_ids" :key="badge" :badge="badge"></base-badge>
         </div>
-        <div class="overview">
+        <div class="overview" v-if="data.overview">
           <span>Overview:</span>
           <p class="description">{{ data.overview }}</p>
         </div>
-        <p class="release"><span>Release date: </span>{{ data.release_date }}</p>
-        <div class="votes">
-          <p>Average rating: <span class="rating" :class="rating">{{ data.vote_average }}</span></p>
-          <p>Vote count: {{ data.vote_count }}</p>
+        <p class="release" v-if="data.release_date"><span>Release date: </span>{{ data.release_date }}</p>
+        <div class="votes" v-if="data.vote_average || data.vote_count">
+          <p v-if="data.vote_average">Average rating: <span class="rating" :class="rating">{{ data.vote_average }}</span></p>
+          <p v-if="data.vote_count">Vote count: {{ data.vote_count }}</p>
         </div>
       </div>
     </div>
