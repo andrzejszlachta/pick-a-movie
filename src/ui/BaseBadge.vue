@@ -6,7 +6,7 @@
 
 <script setup>
 import { useStore } from 'vuex';
-import { defineProps } from 'vue';
+import { defineProps, computed } from 'vue';
 
 const props = defineProps({
   badge: {
@@ -16,7 +16,10 @@ const props = defineProps({
 })
 
 const store = useStore()
-const badgeName = store.state.genres[0].genres.find(obj => obj.id === props.badge).name
+
+const badgeName = computed(()=> {
+  return store.getters.getBadgeName(props.badge)
+})
 </script>
 
 <style lang="scss" scoped>

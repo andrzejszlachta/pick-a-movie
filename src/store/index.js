@@ -6,10 +6,19 @@ export default createStore({
     popularList: [],
     topList: [],
     genres: [],
-    recipesDetails: [],
+    details: [],
     searchResults: [],
   },
   getters: {
+    getTopList(state) {
+      return state.topList
+    },
+    getDetails: (state) => (id) => {
+      return state.details.find(obj => obj.id === +id)
+    },
+    getBadgeName: (state) => (badge) => {
+      return state.genres[0].genres.find(obj => obj.id === badge).name
+    },
   },
   mutations: {
   },
@@ -24,12 +33,14 @@ export default createStore({
       context.state[payload.savePath].push(responseData)
     },
     async getDetails(context, payload) {
+      await context.dispatch('getGenresList')
+
       const fullURL = `https://api.themoviedb.org/3/movie/${payload}?api_key=${context.state.API}&language=en-US`
 
       //dont call api request if already data stored locally
-      if (context.state.recipesDetails.find(obj => obj.id === payload) !== undefined) return
+      if (context.state.details.find(obj => obj.id === payload) !== undefined) return
        
-      await context.dispatch('sendApiRequest', {url: fullURL, savePath: 'recipesDetails'})
+      await context.dispatch('sendApiRequest', {url: fullURL, savePath: 'details'})
     },
     async getGenresList(context) {
       const fullURL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${context.state.API}&language=en-US`
