@@ -19,8 +19,17 @@ export default createStore({
     getBadgeName: (state) => (badge) => {
       return state.genres[0].genres.find(obj => obj.id === badge).name
     },
+    getResults: (state) => {
+      return state.searchResults
+    },
+    getGenres: (state) => {
+      return state.genres
+    },
   },
   mutations: {
+    clearSearchResults(state) {
+      state.searchResults = []
+    }
   },
   actions: {
     async sendApiRequest(context, payload) {
@@ -58,6 +67,16 @@ export default createStore({
       if (context.state[payload.savePath].find(obj => obj.page === payload.page) !== undefined) return
 
       context.dispatch('sendApiRequest', {url: fullURL, savePath: payload.savePath})
+    },
+    async getSearchResults(context, payload) {
+      await context.dispatch('getGenresList')
+
+      const fullURL = payload.part1 + context.state.API + payload.part2
+
+      //dont call api request if already data stored locally
+      if (context.state[payload.savePath].find(obj => obj.page === payload.page) !== undefined) return
+
+      await context.dispatch('sendApiRequest', {url: fullURL, savePath: payload.savePath})
     },
   },
   modules: {
