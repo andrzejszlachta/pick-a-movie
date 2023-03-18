@@ -12,7 +12,6 @@
               <li><router-link to="/popular">Popular</router-link></li>
               <li><router-link to="/top">Top Rated</router-link></li>
               <li><router-link to="/trending">Trending</router-link></li>
-              <li><router-link to="/discover">Discover</router-link></li>
               <li><router-link to="/upcoming">Upcoming</router-link></li>
               <li><router-link to="/latest">Latest</router-link></li>
             </ul>

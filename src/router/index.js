@@ -4,7 +4,6 @@ import HomePage from '../pages/HomePage.vue'
 import AboutPage from '../pages/AboutPage.vue'
 import MoviePicker from '../pages/MoviePicker.vue'
 
-import DiscoverList from '../pages/lists/DiscoverList.vue'
 import LatestList from '../pages/lists/LatestList.vue'
 import PopularList from '../pages/lists/PopularList.vue'
 import TopList from '../pages/lists/TopList.vue'
@@ -32,11 +31,6 @@ const routes = [
     path: '/search',
     name: 'search',
     component: MoviePicker
-  },
-  {
-    path: '/discover',
-    name: 'discover',
-    component: DiscoverList
   },
   {
     path: '/latest',
