@@ -3,9 +3,8 @@
     <h2>Don't waste your time. Pick a movie to watch right now!</h2>
     <div class="container max-width">
       <div class="search">
-        <!-- required -->
-        <div class="sorting">
-          <label for="sorting">Sorting:</label>
+        <div class="sorting box">
+          <label for="sorting">Sorting type</label>
           <select name="sorting" id="sorting" v-model="searchData.sorting">
             <option value="popularity">Popularity</option>
             <option value="release_date">Release date</option>
@@ -17,26 +16,45 @@
           </select>
           <label><input type="radio" name="sorting_type" value=".desc" v-model="searchData.sorting_type" checked>Descending</label>
           <label><input type="radio" name="sorting_type" value=".asc" v-model="searchData.sorting_type">Ascending</label>
+          <label><input type="checkbox" name="adult" v-model="searchData.includeAdult">Include +18?</label>
         </div>
-        <label>Include +18:<input type="checkbox" name="adult" v-model="searchData.includeAdult"></label>
-        <!-- additional -->
-        <div class="releaseDate">
-          <p>Release year:</p>
-          <label>from: <input type="number" name="release" min="1500" max="2050" v-model.number="searchData.releaseGreater"></label>
-          <label>to: <input type="number" name="release" min="1500" max="2050" v-model.number="searchData.releaseLess"></label>
+        <div class="stats box">
+          <table class="stats__release">
+            <tr>
+              <th>Release year</th>
+            </tr>
+            <tr>
+              <th><label for="releaseGreater">from</label></th>
+              <td><input type="number" name="releaseGreater" min="1900" max="2050" v-model.number="searchData.releaseGreater" placeholder="1990"></td>
+            </tr>
+            <tr>
+              <th><label for="releaseLess">to</label></th>
+              <td><input type="number" name="releaseLess" min="1900" max="2050" v-model.number="searchData.releaseLess" placeholder="2020"></td>
+            </tr>
+          </table>
+          <table class="stats__vote">
+            <tr>
+              <th><label for="voteAverage">Minimum rating</label></th>
+              <td><input type="number" min="1" max="10" name="voteAverage" v-model.number="searchData.minVoteAverage" placeholder="7.5"></td>
+            </tr>
+            <tr>
+              <th><label for="voteCount">Minimum votes</label></th>
+              <td><input type="number" name="voteCount" v-model.number="searchData.minVoteCount" placeholder="1000"></td>
+            </tr>
+          </table>
         </div>
-        <div class="voteAverage">
-          <label for="voteAverage">Minimum rating:<input type="number" min="1" max="10" name="voteAverage" v-model.number="searchData.minVoteAverage"></label>
-        </div>
-        <div class="voteCount">
-          <label for="voteCount">Minimum vote count:<input type="number" name="voteCount" v-model.number="searchData.minVoteCount"></label>
-        </div>
-        <div class="genres" v-if="genres[0]">
-          <p>Pick your favorite genres:</p>
-          <div class="genre" v-for="genre in genres[0].genres" :key="`genre${genre.id}`"><label><input type="checkbox" :value="genre.name" v-model="searchData.genres[genre.id]">{{ genre.name }}</label></div>
+        <div class="genres box" v-if="genres[0]">
+          <p>Pick your favorite genres</p>
+          <div class="genres__container">
+            <div class="genre" v-for="genre in genres[0].genres" :key="`genre${genre.id}`">
+              <label><input type="checkbox" :value="genre.name" v-model="searchData.genres[genre.id]">{{ genre.name }}</label>
+            </div>
+          </div>
         </div>
         <base-button dark @click="submitSearch"><span>Search</span></base-button>
       </div>
+    </div>
+    <div class="results max-width">
       <div :class="`results-${data.page}`" v-if="data">
         <base-result v-for="result in data.results" :key="result.id" :data="result" :id="result.id"/>
       </div>
@@ -115,12 +133,150 @@ async function submitSearch() {
     color: #fff;
     padding: 10px 0;
   }
-  .search {
+  .container .search {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    "sorting stats"
+    "genres genres"
+    "button button";
+    font-size: 1.2rem;
     background-color: #FCFFE7;
     padding: 3%;
     margin: 15px auto;
     border-width: 5px;
     border-style: solid;
     border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
+    @media (max-width: 700px) {
+      grid-template-areas: 
+      "sorting sorting"
+      "stats stats"
+      "genres genres"
+      "button button";
+    }
+    .box {
+        box-shadow: 0 0 3px 1px #2B3467;
+        padding: 3%;
+        margin: 5px;
+        input[type='checkbox'],
+        input[type='radio'] {
+          cursor: pointer;
+          width: 23px;
+          height: 23px;
+          vertical-align: -4px;
+        }
+        label:has(input[type='checkbox']),
+        label:has(input[type='radio']) {
+          cursor: pointer;
+        }
+    }
+    .sorting {
+      grid-area: sorting;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 6%;
+      label {
+        display: block;
+        margin-top: 5px;
+        &:nth-child(1) {
+          font-weight: bold;
+        }
+        &:nth-child(3),
+        &:nth-child(4) {
+          margin-left: 20px;
+        }
+
+        &:nth-last-child(1) {
+          font-weight: bold;
+          margin-top: 20px;
+        }
+      }
+      select {
+        margin-top: 20px;
+        margin-bottom: 5px;
+        font-size: 1.2rem;
+      }
+    }
+    .stats {
+      padding: 6%;
+      grid-area: stats;
+      table {
+        th {
+          text-align: left;
+        }
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+          font-size: 1.2rem;
+          -moz-appearance: textfield;
+          appearance: textfield;
+          border: 1px solid #2B3467;
+          width: 100px;
+          text-align: center;
+          &::placeholder {
+            font-size: 1rem;
+          }
+          &:focus {
+            box-shadow: 0 0 5px 0 #2B3467;
+            outline: none;
+          }
+        }
+      }
+      table.stats__release {
+        tr {
+          &:nth-child(2),
+          &:nth-child(3) {
+            th {
+              padding-left: 20px;
+              font-weight: normal;
+            }
+          }
+        }
+      }
+      table.stats__vote {
+        margin-top: 30px;
+        th {
+          padding-right: 20px;
+        }
+      }
+    }
+    .genres {
+      grid-area: genres;
+      @media (max-width: 700px) {
+        padding: 6%;
+      }
+      p {
+        font-weight: bold;
+      }
+      .genres__container {
+        display: grid;
+        grid-template-columns: repeat(5, auto);
+        @media (max-width: 850px) {
+          grid-template-columns: repeat(3, auto);
+        }
+        @media (max-width: 550px) {
+          grid-template-columns: repeat(1, auto);
+          .genre {
+            margin: 0;
+            padding: 5px;
+          }
+        }
+      }
+      .genre {
+        margin: 5px;
+      }
+    }
+    button {
+      grid-area: button;
+      margin-top: 20px;
+    }
   }
 </style>
