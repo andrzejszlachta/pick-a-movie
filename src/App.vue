@@ -25,6 +25,13 @@ html {
   body {
     margin: 0;
     padding: 0;
+    h2 {
+      font-size: 1.8rem;
+      text-align: center;
+      background-color: #2B3467;
+      color: #fff;
+      padding: 20px 0;
+    }
     main {
       background-color: #BAD7E9;
       padding: 20px 0;

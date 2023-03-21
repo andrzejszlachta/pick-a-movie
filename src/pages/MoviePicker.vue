@@ -127,12 +127,6 @@ async function submitSearch() {
 </script>
 
 <style lang="scss" scoped>
-  h2 {
-    text-align: center;
-    background-color: #2B3467;
-    color: #fff;
-    padding: 10px 0;
-  }
   .container .search {
     display: grid;
     grid-template-columns: 1fr 1fr;
