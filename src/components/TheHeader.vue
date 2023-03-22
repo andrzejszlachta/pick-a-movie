@@ -23,7 +23,7 @@
     <div class="header-container mobile">
       <img src="../assets/pickamovie-logo2.png" alt="logo">
       <div class="container">
-        <button class="switch" @click="switchNav">≡</button>
+        <button class="switch" @click="switchNav" @touchstart.prevent="switchNav">≡</button>
         <nav v-if="showMobileNav" @click="switchNav">
           <ul>
             <li><router-link to="/home">Home</router-link></li>
