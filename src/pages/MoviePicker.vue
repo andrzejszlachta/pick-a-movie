@@ -54,16 +54,20 @@
         <base-button dark @click="submitSearch"><span>Search</span></base-button>
       </div>
     </div>
-    <div class="results max-width">
-      <div :class="`results-${data.page}`" v-if="data">
-        <base-result v-for="result in data.results" :key="result.id" :data="result" :id="result.id"/>
+    <div class="results max-width" v-if="store.state.searchResults.length" @scroll="getMoreResults">
+      <div v-for="result in store.state.searchResults" :key="`page${result.page}`" :class="`results-${result.page}`">
+        <div class="results__info" v-if="store.state.searchResults.length">
+          <p>Current page: {{ result.page }}/{{ result.total_pages }}</p>
+          <p>Total results: {{ result.total_results }}</p>
+        </div>
+        <base-result v-for="result in result.results" :key="result.id" :data="result" :id="result.id"></base-result>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { reactive, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore()
@@ -93,15 +97,13 @@ const searchData = reactive({
   keyword: null,
 })
 
-const page = ref(1)
+const page = computed(()=> {
+  return store.state.searchResults.length
+})
 
 store.dispatch('getGenresList')
 const genres = computed(()=> {
   return store.getters.getGenres
-})
-
-const data = computed(()=> {
-  return store.getters.getResults.find(obj => obj.page === page.value)
 })
 
 const link = computed(()=> {
@@ -110,6 +112,7 @@ const link = computed(()=> {
   if (searchData.minVoteAverage && searchData.minVoteAverage >= 0 && searchData.minVoteAverage <= 10) constructedLink += `&vote_average.gte=${searchData.minVoteAverage}`
   if (searchData.minVoteCount) constructedLink += `&vote_count.gte=${searchData.minVoteCount}`
   if (searchData.filteredGenres.length) constructedLink += `&with_genres=${searchData.filteredGenres}`
+  if (page.value) constructedLink += `&page=${page.value+1}`
   return constructedLink
 })
 
@@ -123,6 +126,27 @@ async function submitSearch() {
     savePath: 'searchResults',
   })
 }
+
+// infinite scroll
+onMounted(()=> {
+  window.addEventListener("scroll", getMoreResults);
+})
+
+async function getMoreResults() {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && store.state.searchResults.length && page.value < store.state.searchResults[0].total_pages) {
+    console.log('load more results page:', page.value + 1);
+    await store.dispatch('getSearchResults', {
+      part1: 'https://api.themoviedb.org/3/discover/movie?api_key=', 
+      part2: link.value, 
+      page: page.value + 1, 
+      savePath: 'searchResults',
+    })
+  }
+}
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", getMoreResults);  
+})
 
 </script>
 

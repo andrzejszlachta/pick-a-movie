@@ -74,7 +74,7 @@ export default createStore({
       const fullURL = payload.part1 + context.state.API + payload.part2
 
       //dont call api request if already data stored locally
-      if (context.state[payload.savePath].find(obj => obj.page === payload.page) !== undefined) return
+      if (context.state[payload.savePath].find(obj => obj.page === payload.page + 1) !== undefined) return
 
       await context.dispatch('sendApiRequest', {url: fullURL, savePath: payload.savePath})
     },
