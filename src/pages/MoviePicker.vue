@@ -55,10 +55,14 @@
       </div>
     </div>
     <div class="results max-width" v-if="store.state.searchResults.length" @scroll="getMoreResults">
+      <div class="results__stats">
+        <p>Search results statistics:</p>
+        <p>Total results: {{ store.state.searchResults[0].total_results }}</p>
+        <p>Total pages: {{ store.state.searchResults[0].total_pages }}</p>
+      </div>
       <div v-for="result in store.state.searchResults" :key="`page${result.page}`" :class="`results-${result.page}`">
         <div class="results__info" v-if="store.state.searchResults.length">
-          <p>Current page: {{ result.page }}/{{ result.total_pages }}</p>
-          <p>Total results: {{ result.total_results }}</p>
+          <p>Page: {{ result.page }}/{{ result.total_pages }}</p>
         </div>
         <base-result v-for="result in result.results" :key="result.id" :data="result" :id="result.id"></base-result>
       </div>
@@ -118,7 +122,6 @@ const link = computed(()=> {
 
 async function submitSearch() {
   store.commit('clearSearchResults')
-  console.log(link.value)
   await store.dispatch('getSearchResults', {
     part1: 'https://api.themoviedb.org/3/discover/movie?api_key=', 
     part2: link.value, 
@@ -132,9 +135,16 @@ onMounted(()=> {
   window.addEventListener("scroll", getMoreResults);
 })
 
+let lastRequested = Date.now()
+
 async function getMoreResults() {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && store.state.searchResults.length && page.value < store.state.searchResults[0].total_pages) {
-    console.log('load more results page:', page.value + 1);
+  if ((window.innerHeight + window.scrollY + 50) >= document.body.offsetHeight && store.state.searchResults.length && page.value < store.state.searchResults[0].total_pages) {
+    
+    //minimum delay between function calls 5s
+    let currentTime = Date.now()
+    if (currentTime - lastRequested < 5000) return
+    lastRequested = currentTime
+
     await store.dispatch('getSearchResults', {
       part1: 'https://api.themoviedb.org/3/discover/movie?api_key=', 
       part2: link.value, 
@@ -151,6 +161,22 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+    .box {
+        box-shadow: 0 0 3px 1px #2B3467;
+        padding: 3%;
+        margin: 5px;
+        input[type='checkbox'],
+        input[type='radio'] {
+          cursor: pointer;
+          width: 23px;
+          height: 23px;
+          vertical-align: -4px;
+        }
+        label:has(input[type='checkbox']),
+        label:has(input[type='radio']) {
+          cursor: pointer;
+        }
+    }
   .container .search {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -171,22 +197,6 @@ onUnmounted(() => {
       "stats stats"
       "genres genres"
       "button button";
-    }
-    .box {
-        box-shadow: 0 0 3px 1px #2B3467;
-        padding: 3%;
-        margin: 5px;
-        input[type='checkbox'],
-        input[type='radio'] {
-          cursor: pointer;
-          width: 23px;
-          height: 23px;
-          vertical-align: -4px;
-        }
-        label:has(input[type='checkbox']),
-        label:has(input[type='radio']) {
-          cursor: pointer;
-        }
     }
     .sorting {
       grid-area: sorting;
@@ -297,4 +307,34 @@ onUnmounted(() => {
       margin-top: 20px;
     }
   }
+  .results {
+      .results__stats, .results__info {
+        background-color: #FCFFE7;
+        border-width: 5px;
+        border-style: solid;
+        border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
+      }
+      .results__stats {
+        font-size: 1.2rem;
+        padding: 3%;
+        margin: 15px auto;
+        text-align: center;
+        p:nth-child(1) {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+      }
+      .results__info {
+        font-family: 'Merriweather', serif;
+        text-align: center;
+        font-weight: bold;
+        font-size: 1.5rem;
+        margin-bottom: 0;
+        border-bottom: none;
+      }
+      .result:nth-of-type(2) {
+        margin-top: -30px;
+        border-top: none;
+      }
+    }
 </style>
