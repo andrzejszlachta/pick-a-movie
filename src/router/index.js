@@ -10,7 +10,7 @@ import TopList from '../pages/lists/TopList.vue'
 import TrendingList from '../pages/lists/TrendingList.vue'
 import UpcomingList from '../pages/lists/UpcomingList.vue'
 import ViewDetails from '../pages/ViewDetails.vue'
-
+import LoginPage from '../pages/LoginPage.vue'
 
 const routes = [
   {
@@ -62,6 +62,11 @@ const routes = [
     name: 'details',
     component: ViewDetails,
     props: true
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage,
   },
   // {
   //   path: '/about',
