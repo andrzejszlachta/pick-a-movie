@@ -1,27 +1,65 @@
 <template>
-  <!-- if not logged -->
-  <div class="form">
+  <!-- login -->
+  <div class="form login" v-if="signingType === 'login'">
     <div class="form__title">Sign In</div>
     <div class="form__inputs">
       <div class="input-container">
-        <input type="text" name="username">
+        <input type="text" name="username" autocomplete="off" required>
         <label for="username">Username</label>
       </div>
       <div class="input-container">
-        <input type="password" name="password">
-        <label for="passowrd">Password</label>
+        <input type="password" name="password" autocomplete="off" required>
+        <label for="password">Password</label>
       </div>
     </div>
-    <button>Sign In</button>
-    <p>Don't have an account? <span class="link">Sign up now!</span></p>
+    <button @click="login">Sign In</button>
+    <p>Don't have an account? <span class="link" @click="switchToRegister">Sign up now!</span></p>
   </div>
-  <!-- if logged  -->
+  <!-- register  -->
+  <div class="form register" v-else>
+    <div class="form__title">Register</div>
+    <div class="form__inputs">
+      <div class="input-container">
+        <input type="text" name="username" autocomplete="off" required>
+        <label for="username">Username</label>
+      </div>
+      <div class="input-container">
+        <input type="password" name="password" autocomplete="off" required>
+        <label for="password">Password</label>
+      </div>
+      <div class="input-container">
+        <input type="password" name="password" autocomplete="off" required>
+        <label for="password">Repeat password</label>
+      </div>
+    </div>
+    <button @click="register">Sign Up</button>
+    <p>Already have an account? <span class="link" @click="switchToLogin">Sign in!</span></p>
+  </div>
   <div>
 
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+const signingType = ref('login')
+
+function switchToLogin() {
+  signingType.value = 'login'
+}
+
+function switchToRegister() {
+  signingType.value = 'register'
+}
+
+async function login() {
+  console.log('login')
+}
+
+async function register() {
+  console.log('register')
+}
 
 </script>
 
@@ -48,10 +86,10 @@
   text-align: center;
   .form__title {
     background-color: #2B3467;
-    font-size: 3rem;
+    font-size: 2.5rem;
     color: white;
     text-align: center;
-    padding: 3%;
+    padding: 6%;
   }
   .form__inputs {
     display: flex;
@@ -60,10 +98,13 @@
     margin: 60px 0;
     .input-container {
       position: relative;
+      &:nth-child(1) {
+        margin-bottom: 20px;
+      }
       label {
         position: absolute;
         top: 30px;
-        left: 50px;
+        left: 60px;
         pointer-events: none;
         transition: top .1s ease-out;
         color: grey;
@@ -72,12 +113,17 @@
         @include input-style;
         max-width: 80%;
         padding-left: 20px;
+        border: 4px solid #BAD7E9;
         &:focus {
           border: 4px solid #2B3467;
           & + label {
             top: -5px;
             color: black;
           }
+        }
+        &:not(:focus):valid + label {
+          top: -5px;
+          color: black;
         }
       }
     }
