@@ -1,43 +1,40 @@
 <template>
   <!-- login -->
-  <div class="form login" v-if="signingType === 'login'">
-    <div class="form__title">Sign In</div>
-    <div class="form__inputs">
-      <div class="input-container">
+  <form class="login" v-if="signingType === 'login'">
+    <p class="title">Sign In</p>
+    <div class="inputs">
+      <div class="inputs__container">
         <input type="text" name="username" autocomplete="off" required>
         <label for="username">Username</label>
       </div>
-      <div class="input-container">
+      <div class="inputs__container">
         <input type="password" name="password" autocomplete="off" required>
         <label for="password">Password</label>
       </div>
     </div>
-    <button @click="login">Sign In</button>
-    <p>Don't have an account? <span class="link" @click="switchToRegister">Sign up now!</span></p>
-  </div>
+    <button @click.prevent="login">Sign In</button>
+    <p>Don't have an account? <a href="#" @click="switchToRegister">Sign up now!</a></p>
+  </form>
   <!-- register  -->
-  <div class="form register" v-else>
-    <div class="form__title">Register</div>
-    <div class="form__inputs">
-      <div class="input-container">
+  <form class="register" v-else>
+    <p class="title">Register</p>
+    <div class="inputs">
+      <div class="inputs__container">
         <input type="text" name="username" autocomplete="off" required>
         <label for="username">Username</label>
       </div>
-      <div class="input-container">
+      <div class="inputs__container">
         <input type="password" name="password" autocomplete="off" required>
         <label for="password">Password</label>
       </div>
-      <div class="input-container">
+      <div class="inputs__container">
         <input type="password" name="password" autocomplete="off" required>
         <label for="password">Repeat password</label>
       </div>
     </div>
-    <button @click="register">Sign Up</button>
-    <p>Already have an account? <span class="link" @click="switchToLogin">Sign in!</span></p>
-  </div>
-  <div>
-
-  </div>
+    <button @click.prevent="register">Sign Up</button>
+    <p>Already have an account? <a href="#" @click="switchToLogin">Sign in!</a></p>
+  </form>
 </template>
 
 <script setup>
@@ -76,7 +73,7 @@ async function register() {
   outline: none;
   border: none;
 }
-.form {
+form {
   width: 500px;
   max-width: 95vw;
   border-radius: 20px;
@@ -84,19 +81,20 @@ async function register() {
   overflow: hidden;
   margin: 50px auto;
   text-align: center;
-  .form__title {
+  .title {
     background-color: #2B3467;
     font-size: 2.5rem;
     color: white;
     text-align: center;
     padding: 6%;
+    margin: 0;
   }
-  .form__inputs {
+  .inputs {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 60px 0;
-    .input-container {
+    .inputs__container {
       position: relative;
       &:nth-child(1) {
         margin-bottom: 20px;
@@ -148,7 +146,7 @@ async function register() {
   p {
     margin: 50px 0 25px;
   }
-  span.link {
+  a {
     text-transform: uppercase;
     font-weight: bold;
     color: #2B3467;
