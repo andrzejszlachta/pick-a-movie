@@ -29,7 +29,7 @@
             <li><router-link to="/home">Home</router-link></li>
             <li><router-link to="/about">About</router-link></li>
             <li><router-link to="/search">Movie Picker</router-link></li>
-            <li class="nonLink">Lists
+            <li class="nonLink" tabindex="0">Lists
               <ul class="inner-list">
                 <li><router-link to="/popular">Popular</router-link></li>
                 <li><router-link to="/top">Top Rated</router-link></li>
@@ -142,7 +142,8 @@ header {
           cursor: pointer;
         }
         li:nth-child(4) {
-          &:hover ul.inner-list {
+          &:hover ul.inner-list,
+          &:focus-within ul.inner-list {
             transform: translateY(0);
             z-index: 1;
           }
@@ -187,7 +188,8 @@ header {
         color: white;
         cursor: pointer;
         transition: color .2s ease-out, border-color .2s ease-out;
-        &:hover {
+        &:hover,
+        &:focus {
           color: #EB455F;
           border-color: #EB455F;
         }
@@ -196,6 +198,7 @@ header {
         position: absolute;
         top: 80px;
         right: -20px;
+        z-index: 1;
         ul {
         font-family: 'Merriweather', serif;
         font-weight: bold;
