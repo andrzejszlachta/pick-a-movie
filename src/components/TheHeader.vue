@@ -110,6 +110,7 @@ header {
             color: white;
             text-transform: uppercase;
             letter-spacing: 1px;
+            white-space: nowrap;
             &:hover {
               color: #EB455F;
               &::after {
