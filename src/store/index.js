@@ -1,6 +1,11 @@
 import { createStore } from 'vuex'
 
+import authModule from './modules/auth.js'
+
 export default createStore({
+  modules: {
+    auth: authModule,
+  },
   state: {
     API: 'dcafa276c4fbb7347b91d1e1c1c50ae3',
     popularList: [],
@@ -8,6 +13,9 @@ export default createStore({
     genres: [],
     details: [],
     searchResults: [],
+    userId: null,
+    token: null,
+    didAutoLogout: false,
   },
   getters: {
     getTopList(state) {
@@ -79,6 +87,4 @@ export default createStore({
       await context.dispatch('sendApiRequest', {url: fullURL, savePath: payload.savePath})
     },
   },
-  modules: {
-  }
 })

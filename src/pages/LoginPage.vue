@@ -1,61 +1,102 @@
 <template>
   <!-- login -->
-  <form class="login" v-if="signingType === 'login'">
-    <p class="title">Sign In</p>
+  <div class="container">
+    <form class="login" v-if="signingType === 'login'">
+      <p class="title">Sign In</p>
     <div class="inputs">
       <div class="inputs__container">
-        <input type="text" name="username" autocomplete="off" required>
-        <label for="username">Username</label>
+        <input type="text" name="username" autocomplete="off" required v-model.trim="email">
+        <label for="username">Email</label>
       </div>
       <div class="inputs__container">
-        <input type="password" name="password" autocomplete="off" required>
+        <input type="password" name="password" autocomplete="off" required v-model.trim="password">
         <label for="password">Password</label>
       </div>
     </div>
-    <button @click.prevent="login">Sign In</button>
-    <p>Don't have an account? <a href="#" @click="switchToRegister">Sign up now!</a></p>
+    <button @click.prevent="submitForm">Sign In</button>
+    <p>Don't have an account? <a href="#" @click="switchSigningType('register')">Sign up now!</a></p>
   </form>
   <!-- register  -->
   <form class="register" v-else>
     <p class="title">Register</p>
     <div class="inputs">
       <div class="inputs__container">
-        <input type="text" name="username" autocomplete="off" required>
-        <label for="username">Username</label>
+        <input type="text" name="username" autocomplete="off" required v-model.trim="email">
+        <label for="username">Email</label>
       </div>
       <div class="inputs__container">
-        <input type="password" name="password" autocomplete="off" required>
+        <input type="password" name="password" autocomplete="off" required v-model.trim="password">
         <label for="password">Password</label>
       </div>
       <div class="inputs__container">
-        <input type="password" name="password" autocomplete="off" required>
-        <label for="password">Repeat password</label>
+        <input type="password" name="repeatPassword" autocomplete="off" required v-model.trim="repeatPassword" @blur="validate">
+        <label for="repeatPassword">Repeat password</label>
       </div>
     </div>
-    <button @click.prevent="register">Sign Up</button>
-    <p>Already have an account? <a href="#" @click="switchToLogin">Sign in!</a></p>
+    <button @click.prevent="submitForm">Sign Up</button>
+    <p>Already have an account? <a href="#" @click="switchSigningType('login')">Sign in!</a></p>
   </form>
+  <div class="logged" v-if="store.state.auth.userId" style="text-align: center; font-size: 2rem; color: green;">Logged In</div>
+  <div class="error" v-if="store.state.auth.error" style="text-align: center; font-size: 2rem; color: red;">{{ store.state.auth.error }}</div>
+  <div class="error" v-if="!formIsValid" style="text-align: center; font-size: 2rem; color: red;">Invalid form</div>
+</div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const store = useStore()
+const router = useRouter()
+
+const email = ref('')
+const password = ref('')
+const repeatPassword = ref('')
+
+const formIsValid = ref(true)
+const isLoading = ref(false)
+const error = ref(null)
 
 const signingType = ref('login')
 
-function switchToLogin() {
-  signingType.value = 'login'
+function validate(e) {
+  console.log('validate', e.target.name)
 }
 
-function switchToRegister() {
-  signingType.value = 'register'
+function switchSigningType(type) {
+  signingType.value = type
+  error.value = null
+  store.state.auth.error = null
+  formIsValid.value = true
 }
 
-async function login() {
-  console.log('login')
-}
+async function submitForm() {
+  console.log(store)
+  if ((email.value === '' || !email.value.includes('@') || password.value.length < 6) || (signingType.value === 'register' && password.value !== repeatPassword.value)) {
+    formIsValid.value = false
+    return
+  }
+  isLoading.value = true
 
-async function register() {
-  console.log('register')
+  const actionPayload = {
+    email: email.value,
+    password: password.value
+  }
+
+  try {
+    if (signingType.value === 'login') {
+      await store.dispatch('login', actionPayload)
+    } else {
+      await store.dispatch('register', actionPayload)
+    }
+    console.log('redirectUrl: ', router)
+    // if (!error.value) router.push('/account')
+  } catch(err) {
+    error.value = err.message || 'Failed to authenticate. Try again later.'
+  }
+
+  isLoading.value = false
 }
 
 </script>
@@ -122,6 +163,9 @@ form {
         &:not(:focus):valid + label {
           top: -5px;
           color: black;
+        }
+        .invalid {
+          border-color: red;
         }
       }
     }

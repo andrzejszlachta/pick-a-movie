@@ -11,6 +11,7 @@ import TrendingList from '../pages/lists/TrendingList.vue'
 import UpcomingList from '../pages/lists/UpcomingList.vue'
 import ViewDetails from '../pages/ViewDetails.vue'
 import LoginPage from '../pages/LoginPage.vue'
+import AccountDetails from '../pages/AccountDetails.vue'
 
 const routes = [
   {
@@ -67,6 +68,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: LoginPage,
+  },
+  {
+    path: '/account',
+    name: 'account',
+    component: AccountDetails,
   },
   // {
   //   path: '/about',
