@@ -39,6 +39,7 @@
   <div class="logged" v-if="store.state.auth.userId" style="text-align: center; font-size: 2rem; color: green;">Logged In</div>
   <div class="error" v-if="store.state.auth.error" style="text-align: center; font-size: 2rem; color: red;">{{ store.state.auth.error }}</div>
   <div class="error" v-if="!formIsValid" style="text-align: center; font-size: 2rem; color: red;">Invalid form</div>
+  <base-spinner v-if="isLoading"/>
 </div>
 </template>
 
