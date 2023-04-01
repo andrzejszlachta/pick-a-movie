@@ -67,11 +67,12 @@
         <base-result v-for="result in result.results" :key="result.id" :data="result" :id="result.id"></base-result>
       </div>
     </div>
+    <base-spinner v-if="isLoading" />
   </div>
 </template>
 
 <script setup>
-import { reactive, computed, onMounted, onUnmounted } from 'vue';
+import { ref, reactive, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore()
@@ -105,6 +106,8 @@ const page = computed(()=> {
   return store.state.searchResults.length
 })
 
+const isLoading = ref(false)
+
 store.dispatch('getGenresList')
 const genres = computed(()=> {
   return store.getters.getGenres
@@ -121,6 +124,7 @@ const link = computed(()=> {
 })
 
 async function submitSearch() {
+  isLoading.value = true
   store.commit('clearSearchResults')
   await store.dispatch('getSearchResults', {
     part1: 'https://api.themoviedb.org/3/discover/movie?api_key=', 
@@ -128,6 +132,7 @@ async function submitSearch() {
     page: page.value, 
     savePath: 'searchResults',
   })
+  isLoading.value = false
 }
 
 // infinite scroll
@@ -135,22 +140,17 @@ onMounted(()=> {
   window.addEventListener("scroll", getMoreResults);
 })
 
-let lastRequested = Date.now()
-
 async function getMoreResults() {
   if ((window.innerHeight + window.scrollY + 50) >= document.body.offsetHeight && store.state.searchResults.length && page.value < store.state.searchResults[0].total_pages) {
-    
-    //minimum delay between function calls 5s
-    let currentTime = Date.now()
-    if (currentTime - lastRequested < 5000) return
-    lastRequested = currentTime
-
+    if (isLoading.value) return
+    isLoading.value = true
     await store.dispatch('getSearchResults', {
       part1: 'https://api.themoviedb.org/3/discover/movie?api_key=', 
       part2: link.value, 
       page: page.value + 1, 
       savePath: 'searchResults',
     })
+    isLoading.value = false
   }
 }
 
