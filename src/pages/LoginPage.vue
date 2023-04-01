@@ -5,8 +5,8 @@
       <p class="title">Sign In</p>
     <div class="inputs">
       <div class="inputs__container">
-        <input type="text" name="username" autocomplete="off" required v-model.trim="email">
-        <label for="username">Email</label>
+        <input type="text" name="email" autocomplete="off" required v-model.trim="email">
+        <label for="email">Email</label>
       </div>
       <div class="inputs__container">
         <input type="password" name="password" autocomplete="off" required v-model.trim="password">
@@ -21,8 +21,8 @@
     <p class="title">Register</p>
     <div class="inputs">
       <div class="inputs__container">
-        <input type="text" name="username" autocomplete="off" required v-model.trim="email">
-        <label for="username">Email</label>
+        <input type="text" name="email" autocomplete="off" required v-model.trim="email">
+        <label for="email">Email</label>
       </div>
       <div class="inputs__container">
         <input type="password" name="password" autocomplete="off" required v-model.trim="password">
@@ -39,7 +39,7 @@
   <div class="logged" v-if="store.state.auth.userId" style="text-align: center; font-size: 2rem; color: green;">Logged In</div>
   <div class="error" v-if="store.state.auth.error" style="text-align: center; font-size: 2rem; color: red;">{{ store.state.auth.error }}</div>
   <div class="error" v-if="!formIsValid" style="text-align: center; font-size: 2rem; color: red;">Invalid form</div>
-  <base-spinner v-if="isLoading"/>
+  <base-loading v-if="isLoading"/>
 </div>
 </template>
 
