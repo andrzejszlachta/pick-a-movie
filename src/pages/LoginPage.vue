@@ -5,14 +5,15 @@
       <p class="title">Sign In</p>
     <div class="inputs">
       <div class="inputs__container">
-        <input type="text" name="email" autocomplete="off" required v-model.trim="email">
+        <input type="text" name="email" autocomplete="off" required v-model.trim="email" @blur="validate">
         <label for="email">Email</label>
       </div>
       <div class="inputs__container">
-        <input type="password" name="password" autocomplete="off" required v-model.trim="password">
+        <input type="password" name="password" autocomplete="off" required v-model.trim="password" @blur="validate">
         <label for="password">Password</label>
       </div>
     </div>
+    <div class="error" v-if="store.state.auth.error">{{ store.state.auth.error }}</div>
     <button @click.prevent="submitForm">Sign In</button>
     <p>Don't have an account? <a href="#" @click="switchSigningType('register')">Sign up now!</a></p>
   </form>
@@ -21,11 +22,11 @@
     <p class="title">Register</p>
     <div class="inputs">
       <div class="inputs__container">
-        <input type="text" name="email" autocomplete="off" required v-model.trim="email">
+        <input type="text" name="email" autocomplete="off" required v-model.trim="email" @blur="validate">
         <label for="email">Email</label>
       </div>
       <div class="inputs__container">
-        <input type="password" name="password" autocomplete="off" required v-model.trim="password">
+        <input type="password" name="password" autocomplete="off" required v-model.trim="password" @blur="validate">
         <label for="password">Password</label>
       </div>
       <div class="inputs__container">
@@ -33,12 +34,11 @@
         <label for="repeatPassword">Repeat password</label>
       </div>
     </div>
+    <div class="error" v-if="store.state.auth.error">{{ store.state.auth.error }}</div>
     <button @click.prevent="submitForm">Sign Up</button>
     <p>Already have an account? <a href="#" @click="switchSigningType('login')">Sign in!</a></p>
   </form>
   <div class="logged" v-if="store.state.auth.userId" style="text-align: center; font-size: 2rem; color: green;">Logged In</div>
-  <div class="error" v-if="store.state.auth.error" style="text-align: center; font-size: 2rem; color: red;">{{ store.state.auth.error }}</div>
-  <div class="error" v-if="!formIsValid" style="text-align: center; font-size: 2rem; color: red;">Invalid form</div>
   <base-loading v-if="isLoading"/>
 </div>
 </template>
@@ -46,53 +46,64 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 
 const store = useStore()
-const router = useRouter()
 
 const email = ref('')
 const password = ref('')
 const repeatPassword = ref('')
 
-const formIsValid = ref(true)
 const isLoading = ref(false)
 const error = ref(null)
 
 const signingType = ref('login')
 
-function validate(e) {
-  console.log('validate', e.target.name)
-}
-
 function switchSigningType(type) {
   signingType.value = type
   error.value = null
   store.state.auth.error = null
-  formIsValid.value = true
+}
+
+function validate(e) {
+  const { name, value} = e.target
+  if (name === 'email') {
+    if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value)) {
+      e.target.classList.remove('invalid')
+    } else {
+      e.target.classList.add('invalid')
+    }
+  } else if (name === 'password') {
+    if (value.length < 6) {
+      e.target.classList.add('invalid')
+    } else {
+      e.target.classList.remove('invalid')
+    }
+  } else if (name === 'repeatPassword') {
+    if (value.length < 6 || password.value !== repeatPassword.value) {
+      e.target.classList.add('invalid')
+    } else {
+      e.target.classList.remove('invalid')
+    }
+  }
 }
 
 async function submitForm() {
-  console.log(store)
-  if ((email.value === '' || !email.value.includes('@') || password.value.length < 6) || (signingType.value === 'register' && password.value !== repeatPassword.value)) {
-    formIsValid.value = false
-    return
-  }
+  document.querySelectorAll('input').forEach(input => validate({target:input}))
+  if (document.querySelectorAll('input.invalid').length) return
+
   isLoading.value = true
 
   const actionPayload = {
     email: email.value,
     password: password.value
   }
-
+  
   try {
     if (signingType.value === 'login') {
       await store.dispatch('login', actionPayload)
     } else {
       await store.dispatch('register', actionPayload)
     }
-    console.log('redirectUrl: ', router)
-    // if (!error.value) router.push('/account')
   } catch(err) {
     error.value = err.message || 'Failed to authenticate. Try again later.'
   }
@@ -165,11 +176,16 @@ form {
           top: -5px;
           color: black;
         }
-        .invalid {
+        &.invalid {
           border-color: red;
         }
       }
     }
+  }
+  .error {
+    color: red;
+    margin: -40px 20px 40px;
+    font-size: 1.2rem;
   }
   button {
     @include input-style;
