@@ -10,34 +10,26 @@
     100% { opacity: 0 }
   }
   .spinner {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: inline-block;
+    width: 104px;
+    height: 104px;
+    display: flex;
     overflow: hidden;
-    background: black;
-    opacity: 0.8;
+    margin: 0 auto;
   }
   .spinner__bar {
     position: relative;
-    transform: translateX(-104px) translateY(-104px) translateZ(0) scale(1);
+    transform: translateX(46px) translateZ(0) scale(1);
     backface-visibility: hidden;
     transform-origin: 0 0;
-    top: 50%;
-    left: 50%;
   }
   .spinner__bar div {
-    left: 94px;
-    top: 48px;
     position: absolute;
     animation: spin linear 1s infinite;
-    background: #ff0026;
-    width: 24px;
-    height: 48px;
-    border-radius: 12px / 24px;
-    transform-origin: 12px 104px;
+    background: #EB455F;
+    width: 12px;
+    height: 24px;
+    border-radius: 6px / 12px;
+    transform-origin: 6px 52px;
     box-sizing: content-box;
   }
   .spinner__bar div:nth-child(1) {
