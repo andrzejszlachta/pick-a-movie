@@ -4,18 +4,19 @@ export default {
   state: {
     userId: null,
     token: null,
+    email: null,
     didAutoLogout: false,
     error: null,
   },
   actions: {
     async login(context, payload) {
-      context.dispatch('auth', {
+      await context.dispatch('auth', {
         ...payload,
         mode: 'login'
       })
     },
     async register(context, payload) {
-      context.dispatch('auth', {
+      await context.dispatch('auth', {
         ...payload,
         mode: 'register'
       })
@@ -50,6 +51,7 @@ export default {
 
       localStorage.setItem('token', responseData.idToken);
       localStorage.setItem('userId', responseData.localId);
+      localStorage.setItem('email', responseData.email);
       localStorage.setItem('tokenExpiration', expirationDate);
 
       timer = setTimeout(function() {
@@ -59,12 +61,14 @@ export default {
       context.commit('setUser', {
           token: responseData.idToken,
           userId: responseData.localId,
+          email: responseData.email,
       });
     },
     tryLogin(context) {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       const tokenExpiration = localStorage.getItem('tokenExpiration');
+      const email = localStorage.getItem('email');
 
       const expiresIn = +tokenExpiration - new Date().getTime();
       if (expiresIn < 0) return;
@@ -77,6 +81,7 @@ export default {
           context.commit('setUser', {
               token: token,
               userId: userId,
+              email: email,
           })
       }
     },
@@ -84,12 +89,14 @@ export default {
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('tokenExpiration');
+        localStorage.removeItem('email')
 
         clearTimeout(timer)
 
         context.commit('setUser', {
             token: null,
             userId: null,
+            email: null,
         })
     },
     autoLogout(context) {
@@ -101,6 +108,7 @@ export default {
     setUser(state, payload) {
       state.token = payload.token;
       state.userId = payload.userId;
+      state.email = payload.email
       state.didAutoLogout = false;
     },
     setAutoLogout(state) {
@@ -113,6 +121,9 @@ export default {
     },
     token(state) {
       return state.token;
+    },
+    email(state) {
+      return state.email
     },
     isAuthenticated(state) {
       return !!state.token
