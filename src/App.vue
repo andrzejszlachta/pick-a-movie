@@ -10,6 +10,13 @@
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
+import { useStore } from 'vuex';
+const store = useStore()
+
+function tryAutoLogin() {
+  store.dispatch('tryLogin')
+}
+tryAutoLogin()
 </script>
 
 <style lang="scss">
