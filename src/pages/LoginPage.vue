@@ -87,11 +87,17 @@ function validate(e) {
   }
 }
 
+function clearPasswordInputs() {
+  password.value = ''
+  repeatPassword.value = ''
+}
+
 async function submitForm() {
   document.querySelectorAll('input').forEach(input => validate({target:input}))
   if (document.querySelectorAll('input.invalid').length) return
 
   isLoading.value = true
+  clearPasswordInputs()
 
   const actionPayload = {
     email: email.value,
