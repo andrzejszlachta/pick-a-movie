@@ -46,8 +46,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 const store = useStore()
+const router = useRouter()
 
 const email = ref('')
 const password = ref('')
@@ -111,21 +113,23 @@ async function submitForm() {
     } else {
       await store.dispatch('register', actionPayload)
     }
-    console.log(signingType.value)
   } catch(err) {
     error.value = err.message || 'Failed to authenticate. Try again later.'
+  } finally {
+    isLoading.value = false
+    if (store.getters.isAuthenticated) {
+      if (router.options.history.state.back) {
+        router.push(router.options.history.state.back)
+      } else {
+        router.push('/account')
+      }
+    }
   }
-
-  isLoading.value = false
 }
 
 </script>
 
 <style lang="scss" scoped>
-// #2B3467
-// #BAD7E9
-// #FCFFE7
-// #EB455F
 @mixin input-style {
   width: 400px;
   height: 50px;
