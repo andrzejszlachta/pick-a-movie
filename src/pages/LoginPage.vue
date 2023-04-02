@@ -97,12 +97,13 @@ async function submitForm() {
   if (document.querySelectorAll('input.invalid').length) return
 
   isLoading.value = true
-  clearPasswordInputs()
-
+  error.value = null
+  
   const actionPayload = {
     email: email.value,
     password: password.value
   }
+  clearPasswordInputs()
   
   try {
     if (signingType.value === 'login') {
@@ -110,6 +111,7 @@ async function submitForm() {
     } else {
       await store.dispatch('register', actionPayload)
     }
+    console.log(signingType.value)
   } catch(err) {
     error.value = err.message || 'Failed to authenticate. Try again later.'
   }
