@@ -9,16 +9,16 @@
           <li><router-link to="/search">Movie Picker</router-link></li>
           <li class="nonLink">Lists <span class="arrow">▶</span>
             <ul class="inner-list">
-              <li><router-link to="/popular">Popular</router-link></li>
-              <li><router-link to="/top">Top Rated</router-link></li>
-              <li><router-link to="/trending">Trending</router-link></li>
-              <li><router-link to="/upcoming">Upcoming</router-link></li>
-              <li><router-link to="/latest">Latest</router-link></li>
+              <li @click="blur"><router-link to="/popular">Popular</router-link></li>
+              <li @click="blur"><router-link to="/top">Top Rated</router-link></li>
+              <li @click="blur"><router-link to="/trending">Trending</router-link></li>
+              <li @click="blur"><router-link to="/upcoming">Upcoming</router-link></li>
+              <li @click="blur"><router-link to="/latest">Latest</router-link></li>
             </ul>
           </li>
         </ul>
       </nav>
-      <base-button><router-link to="/home">Account</router-link></base-button>
+      <base-button><router-link to="/login">{{ accountText }}</router-link></base-button>
     </div>
     <div class="header-container mobile">
       <img src="../assets/pickamovie-logo2.png" alt="logo">
@@ -38,7 +38,7 @@
                 <li><router-link to="/latest">Latest</router-link></li>
               </ul>
             </li>
-            <li><router-link to="/home">Account</router-link></li>
+            <li><router-link to="/login">{{ accountText }}</router-link></li>
           </ul>
         </nav>
       </div>
@@ -47,9 +47,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore()
+
+function blur(e) {
+  e.target.blur()
+}
 
 const showMobileNav = ref(false)
+const accountText = computed(()=> {
+  if (store.getters.isAuthenticated) return 'account'
+  return 'login'
+})
 
 function switchNav() {
   showMobileNav.value = !showMobileNav.value
@@ -141,6 +152,12 @@ header {
           color: white;
           padding: 10px;
           cursor: pointer;
+          &:hover {
+            color: #EB455F;
+            .arrow {
+              color: #EB455F;
+            }
+          }
         }
         li:nth-child(4) {
           &:hover ul.inner-list,
