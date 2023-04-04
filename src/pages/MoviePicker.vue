@@ -116,10 +116,11 @@ const genres = computed(()=> {
 const link = computed(()=> {
   let constructedLink = `&language=en-US&sort_by=${searchData.sorting}${searchData.sorting_type}&include_adult=${searchData.includeAdult}`
   if (searchData.releaseGreater) constructedLink += `&release_date.gte=${searchData.releaseGreater}`
+  if (searchData.releaseLess) constructedLink += `&release_date.lte=${searchData.releaseLess}`
   if (searchData.minVoteAverage && searchData.minVoteAverage >= 0 && searchData.minVoteAverage <= 10) constructedLink += `&vote_average.gte=${searchData.minVoteAverage}`
   if (searchData.minVoteCount) constructedLink += `&vote_count.gte=${searchData.minVoteCount}`
   if (searchData.filteredGenres.length) constructedLink += `&with_genres=${searchData.filteredGenres}`
-  if (page.value) constructedLink += `&page=${page.value+1}`
+  if (page.value) constructedLink += `&page=${page.value}`
   return constructedLink
 })
 
@@ -132,6 +133,7 @@ async function submitSearch() {
     page: page.value, 
     savePath: 'searchResults',
   })
+  console.log(link.value);
   isLoading.value = false
 }
 
