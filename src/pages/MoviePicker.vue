@@ -4,19 +4,21 @@
     <div class="container max-width">
       <div class="search">
         <div class="sorting box">
-          <label for="sorting">Sorting type</label>
-          <select name="sorting" id="sorting" v-model="searchData.sorting">
-            <option value="popularity">Popularity</option>
-            <option value="release_date">Release date</option>
-            <option value="revenue">Revenue</option>
-            <option value="primary_release_date">Primary release date</option>
-            <option value="original_title">Original title</option>
-            <option value="vote_average">Vote average</option>
-            <option value="vote_count">Vote count</option>
-          </select>
-          <label><input type="radio" name="sorting_type" value=".desc" v-model="searchData.sorting_type" checked>Descending</label>
-          <label><input type="radio" name="sorting_type" value=".asc" v-model="searchData.sorting_type">Ascending</label>
-          <label><input type="checkbox" name="adult" v-model="searchData.includeAdult">Include +18?</label>
+          <div class="container">
+            <label for="sorting">Sorting type</label>
+            <select name="sorting" id="sorting" v-model="searchData.sorting">
+              <option value="popularity">Popularity</option>
+              <option value="release_date">Release date</option>
+              <option value="revenue">Revenue</option>
+              <option value="primary_release_date">Primary release date</option>
+              <option value="original_title">Original title</option>
+              <option value="vote_average">Vote average</option>
+              <option value="vote_count">Vote count</option>
+            </select>
+            <label><input type="radio" name="sorting_type" value=".desc" v-model="searchData.sorting_type" checked>Descending</label>
+            <label><input type="radio" name="sorting_type" value=".asc" v-model="searchData.sorting_type">Ascending</label>
+            <label><input type="checkbox" name="adult" v-model="searchData.includeAdult">Include +18?</label>
+          </div>
         </div>
         <div class="stats box">
           <table class="stats__release">
@@ -32,11 +34,20 @@
               <td><input type="number" name="releaseLess" min="1900" max="2050" v-model.number="searchData.releaseLess" placeholder="2020"></td>
             </tr>
           </table>
-          <table class="stats__vote">
+          <table class="stats__rating">
             <tr>
-              <th><label for="voteAverage">Minimum rating</label></th>
-              <td><input type="number" min="1" max="10" name="voteAverage" v-model.number="searchData.minVoteAverage" placeholder="7.5"></td>
+              <th>Rating</th>
             </tr>
+            <tr>
+              <th><label for="minVoteAverage">min</label></th>
+              <td><input type="number" min="1" max="10" name="minVoteAverage" v-model.number="searchData.minVoteAverage" placeholder="5"></td>
+            </tr>
+            <tr>
+              <th><label for="maxVoteAverage">max</label></th>
+              <td><input type="number" min="1" max="10" name="minVoteAverage" v-model.number="searchData.maxVoteAverage" placeholder="7.5"></td>
+            </tr>
+          </table>
+          <table class="stats__vote">
             <tr>
               <th><label for="voteCount">Minimum votes</label></th>
               <td><input type="number" name="voteCount" v-model.number="searchData.minVoteCount" placeholder="1000"></td>
@@ -84,6 +95,7 @@ const searchData = reactive({
   releaseGreater: null,
   releaseLess: null,
   minVoteAverage: null,
+  maxVoteAverage: null,
   minVoteCount: null,
   genres: {},
   filteredGenres: computed(()=> {
@@ -118,6 +130,7 @@ const link = computed(()=> {
   if (searchData.releaseGreater) constructedLink += `&release_date.gte=${searchData.releaseGreater}`
   if (searchData.releaseLess) constructedLink += `&release_date.lte=${searchData.releaseLess}`
   if (searchData.minVoteAverage && searchData.minVoteAverage >= 0 && searchData.minVoteAverage <= 10) constructedLink += `&vote_average.gte=${searchData.minVoteAverage}`
+  if (searchData.maxVoteAverage && searchData.maxVoteAverage >= 0 && searchData.maxVoteAverage <= 10) constructedLink += `&vote_average.lte=${searchData.maxVoteAverage}`
   if (searchData.minVoteCount) constructedLink += `&vote_count.gte=${searchData.minVoteCount}`
   if (searchData.filteredGenres.length) constructedLink += `&with_genres=${searchData.filteredGenres}`
   if (page.value) constructedLink += `&page=${page.value}`
@@ -170,13 +183,18 @@ onUnmounted(() => {
         input[type='checkbox'],
         input[type='radio'] {
           cursor: pointer;
-          width: 23px;
-          height: 23px;
-          vertical-align: -4px;
+          width: 33px;
+          height: 33px;
+          vertical-align: -9px;
+          margin-right: 10px;
         }
         label:has(input[type='checkbox']),
         label:has(input[type='radio']) {
           cursor: pointer;
+          font-size: 1.4rem;
+          &:hover {
+            color: #EB455F;
+          }
         }
     }
   .container .search {
@@ -186,7 +204,7 @@ onUnmounted(() => {
     "sorting stats"
     "genres genres"
     "button button";
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     background-color: #FCFFE7;
     padding: 3%;
     margin: 15px auto;
@@ -207,34 +225,38 @@ onUnmounted(() => {
       justify-content: center;
       align-items: flex-start;
       padding: 6%;
-      label {
-        display: block;
-        margin-top: 5px;
-        &:nth-child(1) {
-          font-weight: bold;
+      .container {
+        margin: 0 auto;
+        label {
+          display: block;
+          margin-top: 5px;
+          &:nth-child(1) {
+            font-weight: bold;
+          }
+          &:nth-child(3),
+          &:nth-child(4) {
+            margin-left: 20px;
+          }
+          &:nth-last-child(1) {
+            font-weight: bold;
+            margin-top: 40px;
+          }
         }
-        &:nth-child(3),
-        &:nth-child(4) {
-          margin-left: 20px;
-        }
-
-        &:nth-last-child(1) {
-          font-weight: bold;
+        select {
           margin-top: 20px;
+          margin-bottom: 5px;
+          font-size: 1.6rem;
         }
-      }
-      select {
-        margin-top: 20px;
-        margin-bottom: 5px;
-        font-size: 1.2rem;
       }
     }
     .stats {
       padding: 6%;
       grid-area: stats;
       table {
+        margin: 0 auto;
         th {
           text-align: left;
+          min-width: 160px;
         }
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
@@ -245,22 +267,24 @@ onUnmounted(() => {
 
         /* Firefox */
         input[type=number] {
-          font-size: 1.2rem;
+          font-size: 1.4rem;
           -moz-appearance: textfield;
           appearance: textfield;
           border: 1px solid #2B3467;
-          width: 100px;
+          width: 120px;
           text-align: center;
           &::placeholder {
-            font-size: 1rem;
+            font-size: 1.2rem;
           }
           &:focus {
-            box-shadow: 0 0 5px 0 #2B3467;
+            box-shadow: 0 0 0px 2px #2B3467;
             outline: none;
           }
         }
       }
-      table.stats__release {
+      table.stats__release,
+      table.stats__rating {
+        margin-bottom: 30px;
         tr {
           &:nth-child(2),
           &:nth-child(3) {
@@ -272,7 +296,6 @@ onUnmounted(() => {
         }
       }
       table.stats__vote {
-        margin-top: 30px;
         th {
           padding-right: 20px;
         }
@@ -285,23 +308,26 @@ onUnmounted(() => {
       }
       p {
         font-weight: bold;
+        margin-bottom: 40px;
       }
       .genres__container {
         display: grid;
-        grid-template-columns: repeat(5, auto);
-        @media (max-width: 850px) {
-          grid-template-columns: repeat(3, auto);
+        grid-template-columns: repeat(5, 1fr);
+        @media (max-width: 1000px) {
+          grid-template-columns: repeat(3, 1fr);
         }
-        @media (max-width: 550px) {
-          grid-template-columns: repeat(1, auto);
+        @media (max-width: 650px) {
+          grid-template-columns: repeat(1, 1fr);
           .genre {
-            margin: 0;
-            padding: 5px;
+            display: inline-block;
+            margin: 15px auto;
+            padding: 10px;
+            min-width: 200px;
           }
         }
       }
       .genre {
-        margin: 5px;
+        margin: 10px;
       }
     }
     button {
@@ -317,12 +343,12 @@ onUnmounted(() => {
         border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
       }
       .results__stats {
-        font-size: 1.2rem;
+        font-size: 1.4rem;
         padding: 3%;
         margin: 15px auto;
         text-align: center;
         p:nth-child(1) {
-          font-size: 1.5rem;
+          font-size: 1.6rem;
           font-weight: bold;
         }
       }
