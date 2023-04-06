@@ -133,7 +133,7 @@ const link = computed(()=> {
   if (searchData.maxVoteAverage && searchData.maxVoteAverage >= 0 && searchData.maxVoteAverage <= 10) constructedLink += `&vote_average.lte=${searchData.maxVoteAverage}`
   if (searchData.minVoteCount) constructedLink += `&vote_count.gte=${searchData.minVoteCount}`
   if (searchData.filteredGenres.length) constructedLink += `&with_genres=${searchData.filteredGenres}`
-  if (page.value) constructedLink += `&page=${page.value}`
+  if (page.value) constructedLink += `&page=${page.value + 1}`
   return constructedLink
 })
 
@@ -146,7 +146,6 @@ async function submitSearch() {
     page: page.value, 
     savePath: 'searchResults',
   })
-  console.log(link.value);
   isLoading.value = false
 }
 
