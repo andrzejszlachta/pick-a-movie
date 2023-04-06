@@ -1,7 +1,9 @@
 <template>
-  <div class="spinner"><div class="spinner__bar">
-    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-  </div></div>
+  <teleport to='body'>
+    <div class="spinner"><div class="spinner__bar">
+      <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+    </div></div>
+  </teleport>
 </template>
 
 <style lang="scss" scoped>
