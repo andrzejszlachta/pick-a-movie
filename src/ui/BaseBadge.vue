@@ -29,6 +29,7 @@ const badgeName = computed(()=> {
     background-color: #EB455F;
     color: #fff;
     margin-right: 5px;
+    margin-bottom: 5px;
     font-weight: bold;
   }
 </style>
