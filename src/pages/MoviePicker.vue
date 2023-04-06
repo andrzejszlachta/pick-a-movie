@@ -21,32 +21,32 @@
           </div>
         </div>
         <div class="stats box">
-          <table class="stats__release">
-            <tr>
-              <th>Release year</th>
-            </tr>
-            <tr>
-              <th><label for="releaseGreater">from</label></th>
-              <td><input type="number" name="releaseGreater" min="1900" max="2050" v-model.number="searchData.releaseGreater" placeholder="1990"></td>
-            </tr>
-            <tr>
-              <th><label for="releaseLess">to</label></th>
-              <td><input type="number" name="releaseLess" min="1900" max="2050" v-model.number="searchData.releaseLess" placeholder="2020"></td>
-            </tr>
-          </table>
-          <table class="stats__rating">
-            <tr>
-              <th>Rating</th>
-            </tr>
-            <tr>
-              <th><label for="minVoteAverage">min</label></th>
-              <td><input type="number" min="1" max="10" name="minVoteAverage" v-model.number="searchData.minVoteAverage" placeholder="5"></td>
-            </tr>
-            <tr>
-              <th><label for="maxVoteAverage">max</label></th>
-              <td><input type="number" min="1" max="10" name="minVoteAverage" v-model.number="searchData.maxVoteAverage" placeholder="7.5"></td>
-            </tr>
-          </table>
+          <div class="stats__release">
+            <p>Release year</p>
+            <table>
+              <tr>
+                <th><label for="releaseGreater">from</label></th>
+                <td><input type="number" name="releaseGreater" min="1900" max="2050" v-model.number="searchData.releaseGreater" placeholder="1990"></td>
+              </tr>
+              <tr>
+                <th><label for="releaseLess">to</label></th>
+                <td><input type="number" name="releaseLess" min="1900" max="2050" v-model.number="searchData.releaseLess" placeholder="2020"></td>
+              </tr>
+            </table>
+          </div>
+          <div class="stats__rating">
+            <p>Rating</p>
+            <table>
+              <tr>
+                <th><label for="minVoteAverage">min</label></th>
+                <td><input type="number" min="1" max="10" name="minVoteAverage" v-model.number="searchData.minVoteAverage" placeholder="5"></td>
+              </tr>
+              <tr>
+                <th><label for="maxVoteAverage">max</label></th>
+                <td><input type="number" min="1" max="10" name="minVoteAverage" v-model.number="searchData.maxVoteAverage" placeholder="7.5"></td>
+              </tr>
+            </table>
+          </div>
           <table class="stats__vote">
             <tr>
               <th><label for="voteCount">Minimum votes</label></th>
@@ -190,7 +190,7 @@ onUnmounted(() => {
         label:has(input[type='checkbox']),
         label:has(input[type='radio']) {
           cursor: pointer;
-          font-size: 1.4rem;
+          font-size: 1.2rem;
           &:hover {
             color: #EB455F;
           }
@@ -203,7 +203,7 @@ onUnmounted(() => {
     "sorting stats"
     "genres genres"
     "button button";
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     background-color: #FCFFE7;
     padding: 3%;
     margin: 15px auto;
@@ -231,6 +231,8 @@ onUnmounted(() => {
           margin-top: 5px;
           &:nth-child(1) {
             font-weight: bold;
+            text-align: center;
+            font-size: 1.4rem;
           }
           &:nth-child(3),
           &:nth-child(4) {
@@ -244,7 +246,7 @@ onUnmounted(() => {
         select {
           margin-top: 20px;
           margin-bottom: 5px;
-          font-size: 1.6rem;
+          font-size: 1.4rem;
         }
       }
     }
@@ -266,7 +268,7 @@ onUnmounted(() => {
 
         /* Firefox */
         input[type=number] {
-          font-size: 1.4rem;
+          font-size: 1.2rem;
           -moz-appearance: textfield;
           appearance: textfield;
           border: 1px solid #2B3467;
@@ -281,17 +283,18 @@ onUnmounted(() => {
           }
         }
       }
-      table.stats__release,
-      table.stats__rating {
+      div.stats__release,
+      div.stats__rating {
         margin-bottom: 30px;
-        tr {
-          &:nth-child(2),
-          &:nth-child(3) {
-            th {
-              padding-left: 20px;
-              font-weight: normal;
-            }
-          }
+        p {
+          font-weight: bold;
+          text-align: center;
+          margin: 15px;
+          font-size: 1.4rem;
+        }
+        table tr th {
+          padding-left: 20px;
+          font-weight: normal; 
         }
       }
       table.stats__vote {
@@ -302,31 +305,39 @@ onUnmounted(() => {
     }
     .genres {
       grid-area: genres;
-      @media (max-width: 700px) {
-        padding: 6%;
-      }
       p {
         font-weight: bold;
         margin-bottom: 40px;
+        text-align: center;
+        font-size: 1.4rem;
       }
       .genres__container {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        @media (max-width: 1000px) {
-          grid-template-columns: repeat(3, 1fr);
-        }
-        @media (max-width: 650px) {
-          grid-template-columns: repeat(1, 1fr);
-          .genre {
-            display: inline-block;
-            margin: 15px auto;
-            padding: 10px;
-            min-width: 200px;
-          }
-        }
       }
       .genre {
-        margin: 10px;
+        margin: 10px auto;
+        min-width: 200px;
+      }
+      @media (max-width: 1250px) {
+        .genres__container {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+      @media (max-width: 1000px) {
+        .genres__container {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 750px) {
+        .genres__container {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 500px) {
+        .genres__container {
+          grid-template-columns: repeat(1, 1fr);
+        }
       }
     }
     button {
@@ -342,26 +353,21 @@ onUnmounted(() => {
         border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
       }
       .results__stats {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
         padding: 3%;
         margin: 15px auto;
         text-align: center;
         p:nth-child(1) {
-          font-size: 1.6rem;
+          font-size: 1.4rem;
           font-weight: bold;
         }
       }
       .results__info {
-        font-family: 'Merriweather', serif;
         text-align: center;
         font-weight: bold;
-        font-size: 1.5rem;
-        margin-bottom: 0;
-        border-bottom: none;
-      }
-      .result:nth-of-type(2) {
-        margin-top: -30px;
-        border-top: none;
+        font-size: 2rem;
+        margin-bottom: -20px;
+        margin-top: 40px;
       }
     }
 </style>
