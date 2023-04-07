@@ -3,12 +3,15 @@
   <main>
     <router-view/>
   </main>
+  <BaseMessage />
   <the-footer/>
 </template>
 
 <script setup>
 import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
+
+import BaseMessage from './ui/BaseMessage.vue'
 
 import { useStore } from 'vuex';
 const store = useStore()
