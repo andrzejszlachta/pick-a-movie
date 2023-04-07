@@ -23,24 +23,36 @@
     </div>
     <div class="result__buttons-container">
       <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
-      <base-button dark><router-link to="/">Add to Watch List</router-link></base-button>
+      <base-button :data="data" dark @click="addToWatchList"><span>Add to Watch List</span></base-button>
     </div>
   </div>
 </template>
 
 <script setup>
 import { defineProps, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+const store = useStore()
+const router = useRouter()
 
 const props = defineProps({
-    data: {
-      type: Object,
-      required: true,
-    },
-    id: {
-      type: Number,
-      required: true,
-    }
+  data: {
+    type: Object,
+    required: true,
+  },
+  id: {
+    type: Number,
+    required: true,
+  }
+})
+
+function addToWatchList() {
+  store.dispatch('addToWatchList', { 
+    data: props.data,
+    router: router,
   })
+}
 
 const rating = computed(()=> {
       if (props.data.vote_average > 7.5) {

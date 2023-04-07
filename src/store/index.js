@@ -1,10 +1,12 @@
 import { createStore } from 'vuex'
 
 import authModule from './modules/auth.js'
+import watchListModule from './modules/watchList.js'
 
 export default createStore({
   modules: {
     auth: authModule,
+    watchList: watchListModule,
   },
   state: {
     API: 'dcafa276c4fbb7347b91d1e1c1c50ae3',
@@ -16,6 +18,7 @@ export default createStore({
     userId: null,
     token: null,
     didAutoLogout: false,
+    messages: [],
   },
   getters: {
     getTopList(state) {
