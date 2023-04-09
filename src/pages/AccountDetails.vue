@@ -8,7 +8,7 @@
     <div class="details max-width">
       <div class="details__watchlist" v-if="store.state.watchList.userWatchList.length">
         <div class="box box--center">Your watch list:</div>
-        <base-result v-for="result in store.state.watchList.userWatchList" :key="result.id" :data="result" :id="result.id"></base-result>
+        <mini-result v-for="result in store.state.watchList.userWatchList" :key="result.id" :data="result" :id="result.id"></mini-result>
       </div>
       <div class="details__noresults box box--center" v-else>There is nothing on your watch list yet!</div>
     </div>
@@ -46,7 +46,6 @@ function logout() {
     padding: 30px;
   }
 }
-
 .container {
   .info {
     position: relative;
@@ -67,9 +66,6 @@ function logout() {
       font-weight: bold;
       margin: 15px 0 5px;
     }
-
-
-
   }
   .details {
     .details__stats {
