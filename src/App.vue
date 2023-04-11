@@ -35,21 +35,30 @@ html {
   body {
     margin: 0;
     padding: 0;
-    h2 {
-      font-size: 1.8rem;
-      text-align: center;
-      background-color: #2B3467;
-      color: #fff;
-      padding: 20px 0;
+    #app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      h2 {
+        font-size: 1.8rem;
+        text-align: center;
+        background-color: #2B3467;
+        color: #fff;
+        padding: 20px 10px;
+        margin: 1rem -10px;
+      }
+      main {
+        background-color: #BAD7E9;
+        padding: 20px 10px;
+      }
+      .max-width {
+        max-width: 1280px;
+        margin: 0 auto;
+      }
     }
-    main {
-      background-color: #BAD7E9;
-      padding: 20px 0;
-    }
-    .max-width {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
+  }
+  @media (max-width:1000px) {
+    font-size: 14px;
   }
 }
 </style>
