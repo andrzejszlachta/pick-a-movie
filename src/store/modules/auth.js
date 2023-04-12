@@ -63,12 +63,14 @@ export default {
           userId: responseData.localId,
           email: responseData.email,
       });
+      context.dispatch('loadData')
     },
     tryLogin(context) {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       const tokenExpiration = localStorage.getItem('tokenExpiration');
       const email = localStorage.getItem('email');
+      context.dispatch('tryLoadData')
 
       const expiresIn = +tokenExpiration - new Date().getTime();
       if (expiresIn < 0) return;
@@ -90,6 +92,7 @@ export default {
         localStorage.removeItem('userId');
         localStorage.removeItem('tokenExpiration');
         localStorage.removeItem('email')
+        context.commit('removeData')
 
         clearTimeout(timer)
 

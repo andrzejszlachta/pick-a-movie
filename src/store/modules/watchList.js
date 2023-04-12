@@ -22,11 +22,7 @@ export default {
         return
       }
       context.state.userWatchList.push(payload.data)
-      console.log('added to watch list');
-      context.dispatch('displayMessage', {
-        value: 'Added to your watch list!',
-        type: 'success'
-      })
+      context.dispatch('saveWatchList', context.state.userWatchList)
     },
     async displayMessage(context, payload) {
       context.rootState.messages.unshift({
@@ -39,10 +35,17 @@ export default {
       }, 3000);
     }
   },
-  mutations: {},
+  mutations: {
+    setWatchList(state, payload) {
+      state.userWatchList = payload.watchList
+    },
+  },
   getters: {
     isOnWatchList: (state) => (id) => {
       return !!state.userWatchList.find(obj => obj.id === id)
+    },
+    watchList: (state) => {
+      return state.userWatchList
     }
   },
 }

@@ -2,11 +2,13 @@ import { createStore } from 'vuex'
 
 import authModule from './modules/auth.js'
 import watchListModule from './modules/watchList.js'
+import storageModule from './modules/storage.js'
 
 export default createStore({
   modules: {
     auth: authModule,
     watchList: watchListModule,
+    store: storageModule
   },
   state: {
     API: 'dcafa276c4fbb7347b91d1e1c1c50ae3',
@@ -68,6 +70,7 @@ export default createStore({
       //dont call api request if already data stored locally
       if (context.state.genres.length > 0) return
       await context.dispatch('sendApiRequest', {url: fullURL, savePath: 'genres'})
+      localStorage.setItem('genres', JSON.stringify(context.state.genres));
     },
     async getMoviesList(context, payload) {
       await context.dispatch('getGenresList')
