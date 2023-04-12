@@ -30,6 +30,7 @@ function logout() {
   isLoggedOut.value = true
   store.dispatch('logout')
 }
+store.dispatch('getGenresList')
 </script>
 
 <style lang="scss" scoped>
