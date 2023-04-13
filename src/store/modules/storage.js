@@ -1,10 +1,11 @@
 export default {
   state: {},
   actions: {
-    async saveWatchList(context, payload) {
+    async saveWatchList(context) {
       const userId = context.getters.userId
       const watchList = {
-        watchList: [...payload]
+        watchList: [...context.getters.watchList],
+        watchedList: [...context.getters.watchedList],
       }
       const response = await fetch(`https://pick-a-movie-as-default-rtdb.europe-west1.firebasedatabase.app/watchLists/${userId}.json`, {
         method: 'PUT',
@@ -13,17 +14,10 @@ export default {
       const responseData = await response.json()
       if (!response.ok) {
         const error = new Error(responseData.message || 'Failed to send');
-        // context.dispatch('displayMessage', {
-        //   value: 'Failed to add to watch list',
-        //   type: 'error'
-        // })
         throw error;
       }
-      // context.dispatch('displayMessage', {
-      //   value: 'Added to your watch list!',
-      //   type: 'success'
-      // })
-      localStorage.setItem('watchList', JSON.stringify(payload));
+      localStorage.setItem('watchList', JSON.stringify(context.getters.watchList));
+      localStorage.setItem('watchedList', JSON.stringify(context.getters.watchedList));
     },
     async loadData(context) {
       await context.dispatch('loadWatchList')
@@ -41,10 +35,15 @@ export default {
       }
       await context.commit('setWatchList', responseData)
       localStorage.setItem('watchList', JSON.stringify(responseData.watchList));
+      localStorage.setItem('watchedList', JSON.stringify(responseData.watchedList));
     },
     async tryLoadData(context) {
       const watchList = JSON.parse(localStorage.getItem('watchList'));
-      if (watchList) context.commit('setWatchList', {watchList: watchList})
+      const watchedList = JSON.parse(localStorage.getItem('watchedList'));
+      if (watchList || watchedList) context.commit('setWatchList', {
+        watchList: watchList,
+        watchedList: watchedList,
+      })
       const genres = JSON.parse(localStorage.getItem('genres'));
       if (genres) context.rootState.genres = genres
     },
@@ -52,6 +51,8 @@ export default {
   mutations: {
     removeData() {
       localStorage.removeItem('watchList')
+      localStorage.removeItem('watchedList')
+      localStorage.removeItem('genres')
     },
   },
   getters: {},

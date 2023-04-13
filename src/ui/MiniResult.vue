@@ -46,11 +46,7 @@ function removeFromWatchList() {
   store.dispatch('removeFromWatchList', props.data)
 }
 function moveToWatched() {
-  console.log('mark as watched');
-  store.dispatch('displayMessage', {
-    value: `${props.data.title} marked as watched!`,
-    type: 'success'
-  })
+  store.dispatch('moveToWatched', props.data)
 }
 
 const rating = computed(()=> {
