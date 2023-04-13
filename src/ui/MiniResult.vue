@@ -43,11 +43,7 @@ const props = defineProps({
 })
 
 function removeFromWatchList() {
-  console.log('remove from watch list');
-  store.dispatch('displayMessage', {
-    value: `${props.data.title} removed from your watch list!`,
-    type: 'success'
-  })
+  store.dispatch('removeFromWatchList', props.data)
 }
 function moveToWatched() {
   console.log('mark as watched');

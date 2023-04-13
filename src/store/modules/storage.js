@@ -13,16 +13,16 @@ export default {
       const responseData = await response.json()
       if (!response.ok) {
         const error = new Error(responseData.message || 'Failed to send');
-        context.dispatch('displayMessage', {
-          value: 'Failed to add to watch list',
-          type: 'error'
-        })
+        // context.dispatch('displayMessage', {
+        //   value: 'Failed to add to watch list',
+        //   type: 'error'
+        // })
         throw error;
       }
-      context.dispatch('displayMessage', {
-        value: 'Added to your watch list!',
-        type: 'success'
-      })
+      // context.dispatch('displayMessage', {
+      //   value: 'Added to your watch list!',
+      //   type: 'success'
+      // })
       localStorage.setItem('watchList', JSON.stringify(payload));
     },
     async loadData(context) {
