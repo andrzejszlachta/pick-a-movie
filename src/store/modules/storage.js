@@ -33,9 +33,10 @@ export default {
         const error = new Error(responseData.message || 'Failed to send request');
         throw error;
       }
+      if (!responseData) return
       await context.commit('setWatchList', responseData)
-      localStorage.setItem('watchList', JSON.stringify(responseData.watchList));
-      localStorage.setItem('watchedList', JSON.stringify(responseData.watchedList));
+      localStorage.setItem('watchList', JSON.stringify(responseData.watchList ? responseData.watchList : []));
+      localStorage.setItem('watchedList', JSON.stringify(responseData.watchedList ? responseData.watchedList : []));
     },
     async tryLoadData(context) {
       const watchList = JSON.parse(localStorage.getItem('watchList'));
@@ -52,7 +53,6 @@ export default {
     removeData() {
       localStorage.removeItem('watchList')
       localStorage.removeItem('watchedList')
-      localStorage.removeItem('genres')
     },
   },
   getters: {},

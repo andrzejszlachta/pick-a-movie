@@ -9,13 +9,13 @@
       <div class="details__watchlist">
         <div class="box box--center">{{ watchListText }}<button @click="switchWatch" class="switch" v-if="store.getters.watchList.length">{{ watchIcon }}</button></div>
         <div class="watch-container" v-show="showWatch">
-          <mini-result v-for="result in store.getters.watchList" :key="result.id" :data="result" :id="result.id"></mini-result>
+          <mini-result v-for="result in watchList" :key="result.id" :data="result" :id="result.id"></mini-result>
         </div>
       </div>
-      <div class="details__watchedlist" v-if="store.getters.watchedList.length">
+      <div class="details__watchedlist">
         <div class="box box--center">{{ watchedListText }}<button @click="switchWatched" class="switch" v-if="store.getters.watchedList.length">{{ watchedIcon }}</button></div>
         <div class="watched-container" v-show="showWatched">
-          <mini-result v-for="result in store.getters.watchedList" :key="result.id" :data="result" :id="result.id"></mini-result>
+          <mini-result v-for="result in watchedList" type="watchedList" :key="result.id" :data="result" :id="result.id"></mini-result>
         </div>
       </div>
     </div>
@@ -40,6 +40,12 @@ function switchWatched() {
 function switchWatch() {
   showWatch.value = !showWatch.value
 }
+const watchList = computed(()=> {
+  return [...store.state.watchList.userWatchList]
+})
+const watchedList = computed(()=> {
+  return [...store.state.watchList.userWatchedList]
+})
 
 const watchListText = computed(()=> {
   if (!store.getters.watchList.length) {

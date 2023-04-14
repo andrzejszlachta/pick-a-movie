@@ -2,7 +2,7 @@
   <div class="result">
     <div class="result__data">
       <h3 class="result__data--title" v-if="data.title">{{ data.title }}<span class="year" v-if="data.release_date"> ({{ data.release_date.slice(0, 4) }})</span><span v-if="data.adult"> 🔞</span></h3>
-      <div class="result__data--badges" v-if="data.genre_ids">
+      <div class="result__data--badges" v-if="data.genre_ids && store.getters.getGenres.length">
         <base-badge v-for="badge in data.genre_ids" :key="badge" :badge="badge"></base-badge>
       </div>
       <div class="result__data--info">
@@ -12,10 +12,15 @@
       </div>
     </div>
     <div class="result__img" :style="{ backgroundImage: imgSource }"></div>
-    <div class="result__buttons-container">
+    <div class="result__buttons-container" v-if="props.type === 'watchList'">
       <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
       <base-button :data="data" dark @click="moveToWatched"><span>Mark as watched</span></base-button>
       <base-button :data="data" dark @click="removeFromWatchList"><span>Remove from list</span></base-button>
+    </div>
+    <div class="result__buttons-container" v-else>
+      <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
+      <base-button :data="data" dark @click="moveBackToWatchList"><span>Watch again</span></base-button>
+      <base-button :data="data" dark @click="removeFromWatchedList"><span>Remove from list</span></base-button>
     </div>
   </div>
 </template>
@@ -25,10 +30,8 @@ import { defineProps, computed } from 'vue';
 
 import dummyBgUrl from '@/assets/dummy.png'
 import { useStore } from 'vuex';
-// import { useRouter } from 'vue-router';
 
 const store = useStore()
-// const router = useRouter()
 const imgSource = props.data.backdrop_path !== null ? `url(https://image.tmdb.org/t/p/w342${props.data.backdrop_path})`: `url(${dummyBgUrl})`
 
 const props = defineProps({
@@ -39,7 +42,11 @@ const props = defineProps({
   id: {
     type: Number,
     required: true,
-  }
+  },
+  type: {
+    type: String,
+    default: 'watchList',
+  },
 })
 
 function removeFromWatchList() {
@@ -47,6 +54,12 @@ function removeFromWatchList() {
 }
 function moveToWatched() {
   store.dispatch('moveToWatched', props.data)
+}
+function moveBackToWatchList() {
+  store.dispatch('moveBackToWatchList', props.data)
+}
+function removeFromWatchedList() {
+  store.dispatch('removeFromWatchedList', props.data)
 }
 
 const rating = computed(()=> {

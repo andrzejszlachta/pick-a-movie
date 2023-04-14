@@ -35,7 +35,6 @@ export default {
       })
     },
     async removeFromWatchList(context, payload) {
-      console.log('33', context.state.userWatchList)
       const index = context.state.userWatchList.indexOf(context.state.userWatchList.find(obj => obj.id === payload.id))
       context.state.userWatchList.splice(index, 1)
       context.dispatch('saveWatchList')
@@ -44,11 +43,31 @@ export default {
         type: 'success'
       })
     },
+    async removeFromWatchedList(context, payload) {
+      const index = context.state.userWatchedList.indexOf(context.state.userWatchedList.find(obj => obj.id === payload.id))
+      context.state.userWatchedList.splice(index, 1)
+      context.dispatch('saveWatchList')
+      context.dispatch('displayMessage', {
+        value: `"${payload.title}" has been removed from your watched list!`,
+        type: 'success'
+      })
+    },
     async moveToWatched(context, payload) {
       const index = context.state.userWatchList.indexOf(context.state.userWatchList.find(obj => obj.id === payload.id))
-      const movie = context.state.userWatchList.find(obj => obj.id === payload.id)
+      const movie = context.state.userWatchList.find(obj => obj.id === +payload.id)
       context.state.userWatchList.splice(index, 1)
       context.state.userWatchedList.push(movie)
+      context.dispatch('saveWatchList')
+      context.dispatch('displayMessage', {
+        value: `"${payload.title}" moved back to watch list!`,
+        type: 'success'
+      })
+    },
+    async moveBackToWatchList(context, payload) {
+      const index = context.state.userWatchedList.indexOf(context.state.userWatchedList.find(obj => obj.id === payload.id))
+      const movie = context.state.userWatchedList.find(obj => obj.id === payload.id)
+      context.state.userWatchedList.splice(index, 1)
+      context.state.userWatchList.push(movie)
       context.dispatch('saveWatchList')
       context.dispatch('displayMessage', {
         value: `"${payload.title}" moved to watched list!`,
@@ -68,8 +87,8 @@ export default {
   },
   mutations: {
     setWatchList(state, payload) {
-      state.userWatchList = payload.watchList
-      state.userWatchedList = payload.watchedList
+      if (payload.watchList) state.userWatchList = payload.watchList
+      if (payload.watchedList) state.userWatchedList = payload.watchedList
     },
   },
   getters: {
