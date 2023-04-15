@@ -70,13 +70,17 @@ function switchNav() {
 
 <style lang="scss" scoped>
 header {
+  position: relative;
   background-color: #2B3467;
+  margin-bottom: 20px;
   &::after {
-    display: block;
+    position: absolute;
+    bottom: -20px;
     content: '';
-    height: 7px;
-    background-color: #2B3467;
-    background: linear-gradient(90deg, rgba(186,215,233,1) 0%, rgba(186,215,233,1) 40%, rgba(235,69,95,1) 60%, rgba(235,69,95,1) 100%);
+    height: 20px;
+    width: 100%;
+    background: rgb(186,215,233);
+    background: linear-gradient(180deg, #2b3467 25%, #bad7e9 75%);
   }
   .header-container.standard {
     margin: 0 auto;
