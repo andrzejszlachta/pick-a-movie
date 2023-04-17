@@ -1,6 +1,9 @@
+import router from '../../router'
+
 let timer
 
 export default {
+
   state: {
     userId: null,
     token: null,
@@ -105,6 +108,16 @@ export default {
     autoLogout(context) {
         context.dispatch('logout');
         context.commit('setAutoLogout');
+    },
+    checkAuthentication(context) {
+      if (!context.getters.isAuthenticated) {
+        context.dispatch('displayMessage', {
+          value: "You're not logged in!",
+          type: 'error'
+        })
+        router.push('/login')
+        return
+      }
     },
   },
   mutations: {

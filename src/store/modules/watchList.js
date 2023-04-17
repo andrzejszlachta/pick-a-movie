@@ -5,14 +5,7 @@ export default {
   },
   actions: {
     async addToWatchList(context, payload) {
-      if (!context.getters.isAuthenticated) {
-        context.dispatch('displayMessage', {
-          value: "You're not logged in!",
-          type: 'error'
-        })
-        payload.router.push('/login')
-        return
-      }
+      context.dispatch('checkAuthentication')
       if (context.getters.isOnWatchList(payload.data.id)) {
         context.dispatch('displayMessage', {
           value: 'Already on your Watch List!',
@@ -35,6 +28,7 @@ export default {
       })
     },
     async removeFromWatchList(context, payload) {
+      context.dispatch('checkAuthentication')
       const index = context.state.userWatchList.indexOf(context.state.userWatchList.find(obj => obj.id === payload.id))
       context.state.userWatchList.splice(index, 1)
       context.dispatch('saveWatchList')
@@ -44,6 +38,7 @@ export default {
       })
     },
     async removeFromWatchedList(context, payload) {
+      context.dispatch('checkAuthentication')
       const index = context.state.userWatchedList.indexOf(context.state.userWatchedList.find(obj => obj.id === payload.id))
       context.state.userWatchedList.splice(index, 1)
       context.dispatch('saveWatchList')
@@ -53,24 +48,26 @@ export default {
       })
     },
     async moveToWatched(context, payload) {
+      context.dispatch('checkAuthentication')
       const index = context.state.userWatchList.indexOf(context.state.userWatchList.find(obj => obj.id === payload.id))
       const movie = context.state.userWatchList.find(obj => obj.id === +payload.id)
       context.state.userWatchList.splice(index, 1)
       context.state.userWatchedList.push(movie)
       context.dispatch('saveWatchList')
       context.dispatch('displayMessage', {
-        value: `"${payload.title}" moved back to watch list!`,
+        value: `"${payload.title}" marked as watched!`,
         type: 'success'
       })
     },
     async moveBackToWatchList(context, payload) {
+      context.dispatch('checkAuthentication')
       const index = context.state.userWatchedList.indexOf(context.state.userWatchedList.find(obj => obj.id === payload.id))
       const movie = context.state.userWatchedList.find(obj => obj.id === payload.id)
       context.state.userWatchedList.splice(index, 1)
       context.state.userWatchList.push(movie)
       context.dispatch('saveWatchList')
       context.dispatch('displayMessage', {
-        value: `"${payload.title}" moved to watched list!`,
+        value: `"${payload.title}" moved back to watch list!`,
         type: 'success'
       })
     },
