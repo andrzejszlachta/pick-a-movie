@@ -63,7 +63,8 @@
       </div>
       <div class="arrow" @click="scrollToTop" v-if="showArrow">⇧</div>
       <div class="buttons">
-        <base-button dark><router-link to="/">Add to Watch List</router-link></base-button>
+        <base-button dark><span @click="addToWatchList">Add to watch list</span></base-button>
+        <base-button dark><span @click="router.back()">Go back</span></base-button>
       </div>
     </div>
   </div>
@@ -73,20 +74,44 @@
 <script setup>
 import { defineProps, computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 const store = useStore()
+const router = useRouter()
 const props = defineProps({id: String})
 
 const data = computed(()=> {
   return store.getters.getDetails(props.id)
 })
-function test() {
-  setTimeout(() => {
-    
-    console.log(data.value);
-  }, 500);
+
+function addToWatchList() {
+  if (store.getters.isOnWatchList(+props.id)) {
+    store.dispatch('displayMessage', {
+      value: 'Already on your Watch List!',
+      type: 'error'
+    })
+    console.log('base dialog redirect???');
+    return
+  }
+  if (store.getters.isOnWatchedList(+props.id)) {
+    store.dispatch('displayMessage', {
+      value: 'You\'ve already wacthed this movie!',
+      type: 'error'
+    })
+    console.log('base dialog redirect???');
+    return
+  }
+  store.dispatch('addToWatchList', { 
+    data: data.value,
+  })
 }
-test()
+
+// function test() {
+//   setTimeout(() => {
+//     console.log(data.value);
+//   }, 500);
+// }
+// test()
 const rating = computed(()=> {
       if (data.value.vote_average > 7.5) {
       return 'high'
@@ -280,7 +305,14 @@ async function getDetails() {
       }
     }
     .buttons {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
       margin-top: 50px;
+      button {
+        margin: 10px;
+      }
+
     }
   }
 }
