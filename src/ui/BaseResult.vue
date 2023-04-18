@@ -7,6 +7,7 @@
     </div>
     <div class="result__container">
       <img v-if="data.backdrop_path" :src="'https://image.tmdb.org/t/p/w342' + data.backdrop_path" alt="poster">
+      <img v-else src="@/assets/dummy.png" alt="poster">
       <div class="data">
         <div class="data__overview" v-if="data.overview">
           <span>Overview:</span>
@@ -70,10 +71,17 @@ const rating = computed(()=> {
   background-color: #FCFFE7;
   padding: 3%;
   margin: 15px 0;
-  border-width: 5px;
-  border-style: solid;
-  border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
-
+  border: 3px solid #2B3467;
+  border-radius: 20px;
+  &:is(.results__info + .result) {
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    .result__title {
+      border-top: 2px solid #2B3467;
+      padding-top: 30px;
+      margin-top: -30px;
+    }
+  }
   .result__title {
     font-family: 'Merriweather', serif;
     margin-bottom: 0;

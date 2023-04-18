@@ -207,9 +207,8 @@ onUnmounted(() => {
     background-color: #FCFFE7;
     padding: 3%;
     margin: 15px auto;
-    border-width: 5px;
-    border-style: solid;
-    border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
+    border: 3px solid #2B3467;
+    border-radius: 20px;
     @media (max-width: 700px) {
       grid-template-areas: 
       "sorting sorting"
@@ -348,21 +347,21 @@ onUnmounted(() => {
   .results {
       .results__stats, .results__info {
         background-color: #FCFFE7;
-        border-width: 5px;
-        border-style: solid;
-        border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
+        border: 3px solid #2B3467;
       }
       .results__stats {
         font-size: 1.2rem;
         padding: 3%;
         margin: 15px auto;
         text-align: center;
+        border-radius: 20px;
         p:nth-child(1) {
           font-size: 1.4rem;
           font-weight: bold;
         }
       }
       .results__info {
+        border-radius: 20px 20px 0 0;
         text-align: center;
         font-weight: bold;
         font-size: 2rem;

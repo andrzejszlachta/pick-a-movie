@@ -32,7 +32,7 @@ import dummyBgUrl from '@/assets/dummy.png'
 import { useStore } from 'vuex';
 
 const store = useStore()
-const imgSource = props.data.backdrop_path !== null ? `url(https://image.tmdb.org/t/p/w342${props.data.backdrop_path})`: `url(${dummyBgUrl})`
+const imgSource = props.data.backdrop_path ? `url(https://image.tmdb.org/t/p/w342${props.data.backdrop_path})`: `url(${dummyBgUrl})`
 
 const props = defineProps({
   data: {
@@ -78,9 +78,8 @@ const rating = computed(()=> {
   background-color: #FCFFE7;
   padding: 3%;
   margin: 15px 0;
-  border-width: 5px;
-  border-style: solid;
-  border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
+  border: 3px solid #2B3467;
+  border-radius: 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-areas: 

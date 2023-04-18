@@ -91,9 +91,8 @@ store.dispatch('getGenresList')
 
 .box {
   background-color: #FCFFE7;
-  border-width: 5px;
-  border-style: solid;
-  border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
+  border: 3px solid #2B3467;
+  border-radius: 20px;
   margin: 20px 0;
   &--center {
     font-size: 1.4rem;
@@ -113,7 +112,7 @@ store.dispatch('getGenresList')
     color: #fff;
     padding: 20px 0;
     margin-bottom: 20px;
-    border-radius: 10px;
+    border-radius: 20px;
     .button {
       position: absolute;
       top: 50%;

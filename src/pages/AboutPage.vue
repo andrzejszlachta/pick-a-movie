@@ -19,9 +19,8 @@ section {
   background-color: #FCFFE7;
   padding: 3%;
   margin: 15px auto;
-  border-width: 5px;
-  border-style: solid;
-  border-image: linear-gradient(to right, #2B3467, #EB455F) 1;
+  border: 3px solid #2B3467;
+  border-radius: 20px;
   em {
     font-weight: bold;
   }
