@@ -6,6 +6,7 @@ export default {
   actions: {
     async addToWatchList(context, payload) {
       context.dispatch('checkAuthentication')
+      if (!context.getters.isAuthenticated) return
       if (context.getters.isOnWatchList(payload.data.id)) {
         context.dispatch('displayMessage', {
           value: 'Already on your Watch List!',
@@ -29,6 +30,7 @@ export default {
     },
     async removeFromWatchList(context, payload) {
       context.dispatch('checkAuthentication')
+      if (!context.getters.isAuthenticated) return
       const index = context.state.userWatchList.indexOf(context.state.userWatchList.find(obj => obj.id === payload.id))
       context.state.userWatchList.splice(index, 1)
       context.dispatch('saveWatchList')
@@ -39,6 +41,7 @@ export default {
     },
     async removeFromWatchedList(context, payload) {
       context.dispatch('checkAuthentication')
+      if (!context.getters.isAuthenticated) return
       const index = context.state.userWatchedList.indexOf(context.state.userWatchedList.find(obj => obj.id === payload.id))
       context.state.userWatchedList.splice(index, 1)
       context.dispatch('saveWatchList')
@@ -49,6 +52,7 @@ export default {
     },
     async moveToWatched(context, payload) {
       context.dispatch('checkAuthentication')
+      if (!context.getters.isAuthenticated) return
       const index = context.state.userWatchList.indexOf(context.state.userWatchList.find(obj => obj.id === payload.id))
       const movie = context.state.userWatchList.find(obj => obj.id === +payload.id)
       context.state.userWatchList.splice(index, 1)
@@ -61,6 +65,7 @@ export default {
     },
     async moveBackToWatchList(context, payload) {
       context.dispatch('checkAuthentication')
+      if (!context.getters.isAuthenticated) return
       const index = context.state.userWatchedList.indexOf(context.state.userWatchedList.find(obj => obj.id === payload.id))
       const movie = context.state.userWatchedList.find(obj => obj.id === payload.id)
       context.state.userWatchedList.splice(index, 1)
