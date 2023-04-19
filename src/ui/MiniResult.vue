@@ -14,24 +14,54 @@
     <div class="result__img" :style="{ backgroundImage: imgSource }"></div>
     <div class="result__buttons-container" v-if="props.type === 'watchList'">
       <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
-      <base-button :data="data" dark @click="moveToWatched"><span>Mark as watched</span></base-button>
-      <base-button :data="data" dark @click="removeFromWatchList"><span>Remove from list</span></base-button>
+      <base-button :data="data" dark @click="showMoveToWatchedDialog = true"><span>Mark as watched</span></base-button>
+      <base-button :data="data" dark @click="showRemoveFromWatchListDialog = true"><span>Remove from list</span></base-button>
     </div>
     <div class="result__buttons-container" v-else>
       <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
-      <base-button :data="data" dark @click="moveBackToWatchList"><span>Watch again</span></base-button>
-      <base-button :data="data" dark @click="removeFromWatchedList"><span>Remove from list</span></base-button>
+      <base-button :data="data" dark @click="showMoveBackToWatchDialog = true"><span>Watch again</span></base-button>
+      <base-button :data="data" dark @click="showRemoveFromWatchedDialog = true"><span>Remove from list</span></base-button>
     </div>
+    <base-dialog 
+      @closeDialog="()=>{if (showMoveToWatchedDialog) showMoveToWatchedDialog = false}"
+      :show="showMoveToWatchedDialog"
+      action="moveToWatched"
+      :data="data">Do you want to move <span class="title">{{data.title}}</span> to your watched movies list?
+    </base-dialog>
+    <base-dialog
+      @closeDialog="()=>{if(showRemoveFromWatchListDialog) showRemoveFromWatchListDialog = false}"
+      :show="showRemoveFromWatchListDialog"
+      action="removeFromWatchList"
+      :data="data">Do you want to remove <span class="title">{{data.title}}</span> from your watch list?
+    </base-dialog>
+    <base-dialog
+      @closeDialog="()=>{if(showRemoveFromWatchedDialog) showRemoveFromWatchedDialog = false}"
+      :show="showRemoveFromWatchedDialog"
+      action="removeFromWatchedList"
+      :data="data">Do you want to remove <span class="title">{{data.title}}</span> from your watch list?
+      </base-dialog>
+    <base-dialog
+      @closeDialog="()=>{if(showMoveBackToWatchDialog) showMoveBackToWatchDialog = false}"
+      :show="showMoveBackToWatchDialog"
+      action="moveBackToWatchList"
+      :data="data">Do you want to move back <span class="title">{{data.title}}</span> to your watch list?
+    </base-dialog>
   </div>
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, ref } from 'vue';
 
 import dummyBgUrl from '@/assets/dummy.png'
 import { useStore } from 'vuex';
 
 const store = useStore()
+
+const showMoveToWatchedDialog = ref(false)
+const showRemoveFromWatchListDialog = ref(false)
+const showRemoveFromWatchedDialog = ref(false)
+const showMoveBackToWatchDialog = ref(false)
+
 const imgSource = props.data.backdrop_path ? `url(https://image.tmdb.org/t/p/w342${props.data.backdrop_path})`: `url(${dummyBgUrl})`
 
 const props = defineProps({
@@ -48,19 +78,6 @@ const props = defineProps({
     default: 'watchList',
   },
 })
-
-function removeFromWatchList() {
-  store.dispatch('removeFromWatchList', props.data)
-}
-function moveToWatched() {
-  store.dispatch('moveToWatched', props.data)
-}
-function moveBackToWatchList() {
-  store.dispatch('moveBackToWatchList', props.data)
-}
-function removeFromWatchedList() {
-  store.dispatch('removeFromWatchedList', props.data)
-}
 
 const rating = computed(()=> {
       if (props.data.vote_average > 7.5) {
