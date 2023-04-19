@@ -24,9 +24,10 @@
       <img src="../assets/pickamovie-logo2.png" alt="logo">
       <div class="container">
         <button class="switch" @click="switchNav" @touchstart.prevent="switchNav">≡</button>
-        <nav v-if="showMobileNav" @click="switchNav">
-          <ul>
-            <li><router-link to="/home">Home</router-link></li>
+        <transition name="mobileNav">
+          <nav v-show="showMobileNav" @click="switchNav">
+            <ul>
+              <li><router-link to="/home">Home</router-link></li>
             <li><router-link to="/about">About</router-link></li>
             <li><router-link to="/search">Movie Picker</router-link></li>
             <li class="nonLink" tabindex="0">Lists
@@ -41,6 +42,7 @@
             <li><router-link to="/login">{{ accountText }}</router-link></li>
           </ul>
         </nav>
+      </transition>
       </div>
     </div>
   </header>
@@ -81,6 +83,7 @@ header {
     width: 100%;
     background: rgb(186,215,233);
     background: linear-gradient(180deg, #2b3467 25%, #bad7e9 75%);
+    z-index: -1;
   }
   .header-container.standard {
     margin: 0 auto;
@@ -164,10 +167,22 @@ header {
           }
         }
         li:nth-child(4) {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          &:has(.inner-list)::after {
+            position: absolute;
+            content: '';
+            background-color: #2B3467;
+            width: 183px;
+            height: 200px;
+            bottom: 5px;
+            left: -30px;
+            z-index: -1;
+          }
           &:hover ul.inner-list,
           &:focus-within ul.inner-list {
             transform: translateY(0);
-            z-index: 1;
           }
           ul.inner-list {
             position: absolute;
@@ -179,6 +194,7 @@ header {
             border: 1px solid #BAD7E9;
             border-top: none;
             transform: translateY(-100%);
+            transition: transform .3s ease-out;
           }
         }
       }
@@ -229,6 +245,7 @@ header {
         background-color: #2B3467;
         border: 1px solid #BAD7E9;
         border-top: none;
+        border-right: none;
         margin: 0;
         padding: 0;
         list-style: none;
@@ -283,5 +300,22 @@ header {
       }
     }
   }
+}
+
+.mobileNav-enter-from, 
+.mobileNav-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.mobileNav-enter-to,
+.mobileNav-leave-from {
+  opacity: 1;
+  transform: translateX(0);
+}
+.mobileNav-enter-active {
+  transition: transform .3s ease-out, opacity .2s ease-out;
+}
+.mobileNav-leave-active {
+  transition: transform .2s ease-in, opacity .2s ease-in;
 }
 </style>
