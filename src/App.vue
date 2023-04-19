@@ -5,6 +5,7 @@
   </main>
   <BaseMessage />
   <the-footer/>
+  <BaseLoading  v-if="store.getters.isLoading"/>
 </template>
 
 <script setup>
@@ -12,6 +13,7 @@ import TheHeader from './components/TheHeader.vue';
 import TheFooter from './components/TheFooter.vue';
 
 import BaseMessage from './ui/BaseMessage.vue'
+import BaseLoading from './ui/BaseLoading.vue'
 
 import { useStore } from 'vuex';
 const store = useStore()

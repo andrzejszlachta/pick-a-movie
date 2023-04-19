@@ -38,8 +38,6 @@
     <button @click.prevent="submitForm">Sign Up</button>
     <p>Already have an account? <a href="#" @click="switchSigningType('login')">Sign in!</a></p>
   </form>
-  <div class="logged" v-if="store.state.auth.userId" style="text-align: center; font-size: 2rem; color: green;">Logged In</div>
-  <base-loading v-if="isLoading"/>
 </div>
 </template>
 
@@ -55,7 +53,6 @@ const email = ref('')
 const password = ref('')
 const repeatPassword = ref('')
 
-const isLoading = ref(false)
 const error = ref(null)
 
 const signingType = ref('login')
@@ -98,7 +95,7 @@ async function submitForm() {
   document.querySelectorAll('input').forEach(input => validate({target:input}))
   if (document.querySelectorAll('input.invalid').length) return
 
-  isLoading.value = true
+  store.commit('startLoading')
   error.value = null
   
   const actionPayload = {
@@ -116,7 +113,7 @@ async function submitForm() {
   } catch(err) {
     error.value = err.message || 'Failed to authenticate. Try again later.'
   } finally {
-    isLoading.value = false
+    store.commit('stopLoading')
     if (store.getters.isAuthenticated) {
       if (router.options.history.state.back) {
         router.push(router.options.history.state.back)

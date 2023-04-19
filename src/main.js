@@ -8,7 +8,6 @@ import BaseResult from './ui/BaseResult.vue'
 import MiniResult from './ui/MiniResult.vue'
 import BaseBadge from './ui/BaseBadge.vue'
 import BaseSpinner from './ui/BaseSpinner.vue'
-import BaseLoading from './ui/BaseLoading.vue'
 import BaseDialog from './ui/BaseDialog.vue'
 
 const app = createApp(App)
@@ -20,7 +19,6 @@ const app = createApp(App)
   app.component('mini-result', MiniResult)
   app.component('base-badge', BaseBadge)
   app.component('base-spinner', BaseSpinner)
-  app.component('base-loading', BaseLoading)
   app.component('base-dialog', BaseDialog)
 
   app.mount('#app')

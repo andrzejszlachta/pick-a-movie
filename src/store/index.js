@@ -21,6 +21,7 @@ export default createStore({
     token: null,
     didAutoLogout: false,
     messages: [],
+    isLoading: false,
   },
   getters: {
     getTopList(state) {
@@ -38,11 +39,20 @@ export default createStore({
     getGenres: (state) => {
       return state.genres
     },
+    isLoading: (state) => {
+      return state.isLoading
+    },
   },
   mutations: {
     clearSearchResults(state) {
       state.searchResults = []
-    }
+    },
+    startLoading(state) {
+      state.isLoading = true
+    },
+    stopLoading(state) {
+      state.isLoading = false
+    },
   },
   actions: {
     async sendApiRequest(context, payload) {
