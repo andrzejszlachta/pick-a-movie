@@ -38,6 +38,7 @@ html {
     margin: 0;
     padding: 0;
     #app {
+      overflow: hidden;
       min-height: 100vh;
       display: grid;
       grid-template-rows: auto 1fr auto;
