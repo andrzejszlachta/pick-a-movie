@@ -14,13 +14,24 @@
     </div>
     <div class="details max-width">
       <div class="details__watchlist">
-        <div class="box box--center"><p class="text">{{ watchListText }}</p><button @click="switchWatch" class="switch" :class="{ disabled: !store.getters.watchList.length }">{{ watchIcon }}</button></div>
+        <div class="box box--center">
+          <p class="text">{{ watchListText }}</p>
+          <button @click="switchWatch" class="switch" :class="{ disabled: !store.getters.watchList.length }">
+            <svg v-if="showWatch" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M246.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 109.3 361.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160zm160 352l-160-160c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 301.3 361.4 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3z"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M246.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 402.7 361.4 265.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-160 160zm160-352l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 210.7 361.4 73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z"/></svg>
+          </button>
+        </div>
         <div class="watch-container" v-show="showWatch">
           <mini-result v-for="result in store.getters.watchList" :key="result.id" :data="result" :id="result.id"></mini-result>
         </div>
       </div>
       <div class="details__watchedlist">
-        <div class="box box--center"><p class="text">{{ watchedListText }}</p><button @click="switchWatched" class="switch" :class="{ disabled: !store.getters.watchedList.length }">{{ watchedIcon }}</button></div>
+        <div class="box box--center"><p class="text">{{ watchedListText }}</p>
+          <button @click="switchWatched" class="switch" :class="{ disabled: !store.getters.watchedList.length }">
+            <svg v-if="showWatched" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M246.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 109.3 361.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160zm160 352l-160-160c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L224 301.3 361.4 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3z"/></svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M246.6 470.6c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 402.7 361.4 265.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3l-160 160zm160-352l-160 160c-12.5 12.5-32.8 12.5-45.3 0l-160-160c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L224 210.7 361.4 73.4c12.5-12.5 32.8-12.5 45.3 0s12.5 32.8 0 45.3z"/></svg>
+          </button>
+        </div>
         <div class="watched-container" v-show="showWatched">
           <mini-result v-for="result in store.getters.watchedList" type="watchedList" :key="result.id" :data="result" :id="result.id"></mini-result>
         </div>
@@ -69,21 +80,6 @@ const watchedListText = computed(()=> {
     return 'You\'ve watched one movie.'
   } else {
     return `You've already watched ${store.getters.watchedList.length} movies!`
-  }
-})
-
-const watchedIcon = computed(() => {
-  if (showWatched.value) {
-    return '⇦'
-  } else {
-    return '⇨'
-  }
-})
-const watchIcon = computed(() => {
-  if (showWatch.value) {
-    return '⇦'
-  } else {
-    return '⇨'
   }
 })
 
@@ -141,34 +137,44 @@ store.dispatch('getGenresList')
         position: relative;
         .switch {
           position: absolute;
-          transform: translate(-50%, 0%);
+          transform: translate(0%, -50%);
           top: 50%;
           right: 10px;
           width: 70px;
           height: 70px;
-          font-size: 3rem;
           background-color: transparent;
           outline: none;
           border: 3px solid #2B3467;
-          font-weight: bold;
           color: #2B3467;
           cursor: pointer;
-          transition: color .2s ease-out, border-color .2s ease-out;
+          display: flex;
+          justify-content: center;
+          align-items: center;
           &.disabled {
             color: grey;
             border-color: grey;
             pointer-events: none;
+            svg {
+              fill: grey;
+            }
           }
           &:hover {
             color: #EB455F;
             border-color: #EB455F;
+            svg {
+              fill: #EB455F;
+              transform: scale(1);
+            }
           }
-          rotate: 90deg;
+          svg {
+            fill: #2B3467;
+            transform: scale(0.85);
+            transition: transform .2s ease-out;
+          }
         }
         .text {
           margin: 0;
         }
-
       }
     }
   }
