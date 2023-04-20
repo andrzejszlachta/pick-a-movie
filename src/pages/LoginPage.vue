@@ -115,7 +115,7 @@ async function submitForm() {
   } finally {
     store.commit('stopLoading')
     if (store.getters.isAuthenticated) {
-      if (router.options.history.state.back) {
+      if (router.options.history.state.back && router.options.history.state.back === '/login') {
         router.push(router.options.history.state.back)
       } else {
         router.push('/account')
