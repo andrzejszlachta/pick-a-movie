@@ -63,8 +63,15 @@
       </div>
       <div class="arrow" @click="scrollToTop" v-if="showArrow">⇧</div>
       <div class="buttons">
-        <base-button dark><span @click="addToWatchList">Add to watch list</span></base-button>
+        <base-button v-if="!store.getters.isOnWatchList(+props.id) && !store.getters.isOnWatchedList(+props.id)" :data="data" dark @click="showAddToWatchListDialog = true"><span>Add to watch list</span></base-button>
+        <base-button v-else :data="data" dark @click="router.push('/account')"><span>Check my lists</span></base-button>
         <base-button dark><span @click="router.back()">Go back</span></base-button>
+        <base-dialog 
+          @closeDialog="()=>{if (showAddToWatchListDialog) showAddToWatchListDialog = false}"
+          :show="showAddToWatchListDialog"
+          action="addToWatchList"
+          :data="{data:data}">Do you want to add <span class="title">{{data.title}}</span> to your watch list?
+        </base-dialog>
       </div>
     </div>
   </div>
@@ -84,34 +91,8 @@ const data = computed(()=> {
   return store.getters.getDetails(props.id)
 })
 
-function addToWatchList() {
-  if (store.getters.isOnWatchList(+props.id)) {
-    store.dispatch('displayMessage', {
-      value: 'Already on your Watch List!',
-      type: 'error'
-    })
-    console.log('base dialog redirect???');
-    return
-  }
-  if (store.getters.isOnWatchedList(+props.id)) {
-    store.dispatch('displayMessage', {
-      value: 'You\'ve already wacthed this movie!',
-      type: 'error'
-    })
-    console.log('base dialog redirect???');
-    return
-  }
-  store.dispatch('addToWatchList', { 
-    data: data.value,
-  })
-}
+const showAddToWatchListDialog = ref(false)
 
-// function test() {
-//   setTimeout(() => {
-//     console.log(data.value);
-//   }, 500);
-// }
-// test()
 const rating = computed(()=> {
       if (data.value.vote_average > 7.5) {
       return 'high'
@@ -157,12 +138,14 @@ async function getDetails() {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-left: 3%;
     .result__title {
       font-family: 'Acme', sans-serif;
       font-size: 2rem;
       letter-spacing: 1px;
       text-align: center;
+      @media (min-width: 750px) {
+        font-size: 3rem;
+      }
     }
     .result__original_title {
       margin-top: -25px;

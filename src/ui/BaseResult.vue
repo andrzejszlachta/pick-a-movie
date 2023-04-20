@@ -23,19 +23,24 @@
       </div>
     </div>
     <div class="result__buttons-container">
+      <base-button v-if="!store.getters.isOnWatchList(+props.id) && !store.getters.isOnWatchedList(+props.id)" :data="data" dark @click="showAddToWatchListDialog = true"><span>Add to watch list</span></base-button>
+      <base-button v-else @click.prevent disabled><span>Already on list</span></base-button>
       <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
-      <base-button :data="data" dark @click="addToWatchList"><span>Add to Watch List</span></base-button>
+      <base-dialog 
+        @closeDialog="()=>{if (showAddToWatchListDialog) showAddToWatchListDialog = false}"
+        :show="showAddToWatchListDialog"
+        action="addToWatchList"
+        :data="{data:data}">Do you want to add <span class="title">{{data.title}}</span> to your watch list?
+      </base-dialog>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, computed } from 'vue';
+import { defineProps, computed, ref } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 
 const store = useStore()
-const router = useRouter()
 
 const props = defineProps({
   data: {
@@ -48,12 +53,7 @@ const props = defineProps({
   }
 })
 
-function addToWatchList() {
-  store.dispatch('addToWatchList', { 
-    data: props.data,
-    router: router,
-  })
-}
+const showAddToWatchListDialog = ref(false)
 
 const rating = computed(()=> {
       if (props.data.vote_average > 7.5) {

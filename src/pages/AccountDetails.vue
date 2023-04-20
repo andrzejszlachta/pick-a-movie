@@ -1,9 +1,16 @@
 <template>
-  <div class="container" v-if="!isLoggedOut">
+  <div class="container" v-if="store.getters.isAuthenticated">
     <div class="info max-width">
       <div>Your account details</div>
       <div class="email">{{ store.getters.email }}</div>
-      <div class="button"><base-button @click="logout"><span>Log Out</span></base-button></div>
+      <div class="button">
+        <base-button @click="showLogoutDialog = true"><span>Log Out</span></base-button>
+        <base-dialog 
+          @closeDialog="()=>{if (showLogoutDialog) showLogoutDialog = false}"
+          :show="showLogoutDialog"
+          action="logout">Do you really want to leave?
+        </base-dialog>
+      </div>
     </div>
     <div class="details max-width">
       <div class="details__watchlist">
@@ -30,9 +37,9 @@ import { useStore } from 'vuex';
 import { ref, computed } from 'vue';
 
 const store = useStore()
-const isLoggedOut = ref(false)
 const showWatched = ref(false)
 const showWatch = ref(false)
+const showLogoutDialog = ref(false)
 
 function switchWatched(e) {
   const classes = [...e.target.classList]
@@ -80,10 +87,6 @@ const watchIcon = computed(() => {
   }
 })
 
-function logout() {
-  isLoggedOut.value = true
-  store.dispatch('logout')
-}
 store.dispatch('getGenresList')
 </script>
 
