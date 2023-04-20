@@ -20,6 +20,7 @@
     display: inline-block;
     overflow: hidden;
     background: rgba(0,0,0,0.8);
+    z-index: 999;
   }
   .spinner__bar {
     position: relative;
