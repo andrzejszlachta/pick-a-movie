@@ -1,5 +1,5 @@
 <template>
-  <button class="base-btn" :class="{ dark: dark }">
+  <button class="base-btn" :class="{ dark: dark, disabled: disabled }">
     <slot></slot>
   </button>
 </template>
@@ -10,6 +10,10 @@ import { defineProps } from 'vue';
 // eslint-disable-next-line
 const props = defineProps({
     dark: {
+      type: Boolean,
+      required: false,
+    },
+    disabled: {
       type: Boolean,
       required: false,
     }
@@ -49,6 +53,19 @@ button.base-btn {
     color: white;
     transition: color .2s ease-out, border-color .2s ease-out;
     cursor: pointer;
+  }
+  &.disabled {
+    &.dark a,
+    &.dark span {
+      border-color: grey;
+      color: grey;
+      cursor: not-allowed;
+    }
+    a, span {
+      border-color: grey;
+      color: grey;
+      cursor: not-allowed;
+    }
   }
 }
 </style>
