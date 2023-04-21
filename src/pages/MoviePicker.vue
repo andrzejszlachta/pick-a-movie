@@ -256,7 +256,10 @@ onUnmounted(() => {
         margin: 0 auto;
         th {
           text-align: left;
-          min-width: 160px;
+          min-width: 150px;
+          @media (max-width: 350px) {
+            min-width: 50%;
+          }
         }
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
@@ -273,13 +276,21 @@ onUnmounted(() => {
           border: 1px solid #2B3467;
           width: 120px;
           text-align: center;
+          outline: none;
+          border: none;
+          border-radius: 5px;
+          box-shadow: 0 0 0px 2px #2B3467;
           &::placeholder {
             font-size: 1.2rem;
+          }
+          &:placeholder-shown {
+            box-shadow: 0 0 0px 2px #BAD7E9;
           }
           &:focus {
             box-shadow: 0 0 0px 2px #2B3467;
             outline: none;
           }
+
         }
       }
       div.stats__release,
@@ -292,7 +303,7 @@ onUnmounted(() => {
           font-size: 1.4rem;
         }
         table tr th {
-          padding-left: 20px;
+          padding: 5px 10px 5px 20px;
           font-weight: normal; 
         }
       }

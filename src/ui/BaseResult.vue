@@ -111,8 +111,8 @@ const rating = computed(()=> {
   .result__container {
     display: flex;
     img {
-      max-width: 342px;
-      max-height: 192px;
+      width: 342px;
+      max-width: 100%;
     }
     .data {
       padding-left: 3%;
