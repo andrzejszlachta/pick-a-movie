@@ -1,7 +1,11 @@
 <template>
   <the-header/>
   <main>
-    <router-view/>
+    <router-view v-slot="{ Component }">
+      <transition name="main" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </main>
   <BaseMessage />
   <the-footer/>
@@ -63,5 +67,20 @@ html {
   @media (max-width:1000px) {
     font-size: 14px;
   }
+}
+
+.main-enter-from,
+.main-leave-to {
+  opacity: 0;
+}
+.main-enter-to,
+.main-leave-from {
+  opacity: 1;
+}
+.main-enter-active {
+  transition: opacity .3s ease-out;
+}
+.main-leave-active {
+  transition: opacity .3s ease-in;
 }
 </style>
