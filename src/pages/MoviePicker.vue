@@ -176,8 +176,9 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
     .box {
-        box-shadow: 0 0 3px 1px #2B3467;
+        box-shadow: 0 0 3px 1px $primary-color;
         padding: 3%;
         margin: 5px;
         input[type='checkbox'],
@@ -193,7 +194,7 @@ onUnmounted(() => {
           cursor: pointer;
           font-size: 1.2rem;
           &:hover {
-            color: #EB455F;
+            color: $alt-color;
           }
         }
     }
@@ -205,10 +206,10 @@ onUnmounted(() => {
     "genres genres"
     "button button";
     font-size: 1.2rem;
-    background-color: #FCFFE7;
+    background-color: $background-color;
     padding: 3%;
     margin: 15px auto;
-    border: 3px solid #2B3467;
+    border: 3px solid $primary-color;
     border-radius: 20px;
     @media (max-width: 700px) {
       grid-template-areas: 
@@ -274,21 +275,21 @@ onUnmounted(() => {
           font-size: 1.2rem;
           -moz-appearance: textfield;
           appearance: textfield;
-          border: 1px solid #2B3467;
+          border: 1px solid $primary-color;
           width: 120px;
           text-align: center;
           outline: none;
           border: none;
           border-radius: 5px;
-          box-shadow: 0 0 0px 2px #2B3467;
+          box-shadow: 0 0 0px 2px $primary-color;
           &::placeholder {
             font-size: 1.2rem;
           }
           &:placeholder-shown {
-            box-shadow: 0 0 0px 2px #BAD7E9;
+            box-shadow: 0 0 0px 2px $secondary-color;
           }
           &:focus {
-            box-shadow: 0 0 0px 2px #2B3467;
+            box-shadow: 0 0 0px 2px $primary-color;
             outline: none;
           }
 
@@ -358,8 +359,8 @@ onUnmounted(() => {
   }
   .results {
       .results__stats, .results__info {
-        background-color: #FCFFE7;
-        border: 3px solid #2B3467;
+        background-color: $background-color;
+        border: 3px solid $primary-color;
       }
       .results__stats {
         font-size: 1.2rem;

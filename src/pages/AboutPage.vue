@@ -14,12 +14,13 @@
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 section {
   font-size: 1.2rem;
-  background-color: #FCFFE7;
+  background-color: $background-color;
   padding: 3%;
   margin: 15px auto;
-  border: 3px solid #2B3467;
+  border: 3px solid $primary-color;
   border-radius: 20px;
   em {
     font-weight: bold;

@@ -95,10 +95,10 @@ store.dispatch('getGenresList')
 </script>
 
 <style lang="scss" scoped>
-
+@import '@/_variables';
 .box {
-  background-color: #FCFFE7;
-  border: 3px solid #2B3467;
+  background-color: $background-color;
+  border: 3px solid $primary-color;
   border-radius: 20px;
   margin: 20px 0;
   &--center {
@@ -115,8 +115,8 @@ store.dispatch('getGenresList')
     position: relative;
     font-size: 1.8rem;
     text-align: center;
-    background-color: #2B3467;
-    color: #fff;
+    background-color: $primary-color;
+    color: $font-white;
     padding: 20px 0;
     margin-bottom: 20px;
     border-radius: 20px;
@@ -152,30 +152,30 @@ store.dispatch('getGenresList')
           height: 70px;
           background-color: transparent;
           outline: none;
-          border: 3px solid #2B3467;
-          color: #2B3467;
+          border: 3px solid $primary-color;
+          color: $primary-color;
           cursor: pointer;
           display: flex;
           justify-content: center;
           align-items: center;
           &.disabled {
-            color: grey;
-            border-color: grey;
+            color: $font-disabled;
+            border-color: $font-disabled;
             pointer-events: none;
             svg {
-              fill: grey;
+              fill: $font-disabled;
             }
           }
           &:hover {
-            color: #EB455F;
-            border-color: #EB455F;
+            color: $alt-color;
+            border-color: $alt-color;
             svg {
-              fill: #EB455F;
+              fill: $alt-color;
               transform: scale(1);
             }
           }
           svg {
-            fill: #2B3467;
+            fill: $primary-color;
             transform: scale(0.85);
             transition: transform .2s ease-out;
           }

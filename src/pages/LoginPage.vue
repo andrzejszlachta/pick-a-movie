@@ -127,6 +127,7 @@ async function submitForm() {
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 @mixin input-style {
   width: 400px;
   height: 50px;
@@ -139,14 +140,14 @@ form {
   width: 500px;
   max-width: 95vw;
   border-radius: 20px;
-  background-color: #FCFFE7;
+  background-color: $background-color;
   overflow: hidden;
   margin: 50px auto;
   text-align: center;
   .title {
-    background-color: #2B3467;
+    background-color: $primary-color;
     font-size: 2.5rem;
-    color: white;
+    color: $font-white;
     text-align: center;
     padding: 6%;
     margin: 0;
@@ -173,9 +174,9 @@ form {
         @include input-style;
         max-width: 80%;
         padding-left: 20px;
-        border: 4px solid #BAD7E9;
+        border: 4px solid $secondary-color;
         &:focus {
-          border: 4px solid #2B3467;
+          border: 4px solid $primary-color;
           & + label {
             top: -5px;
             color: black;
@@ -200,16 +201,16 @@ form {
     @include input-style;
     cursor: pointer;
     font-size: 1.2rem;
-    background-color: #BAD7E9;
-    box-shadow: 0 9px #2B3467;
+    background-color: $secondary-color;
+    box-shadow: 0 9px $primary-color;
     font-weight: bold;
     max-width: 320px;
     &:hover {
-      color: #2B3467;
-      border: 2px solid #2B3467;
+      color: $primary-color;
+      border: 2px solid $primary-color;
     }
     &:active {
-      box-shadow: 0 4px #2B3467;
+      box-shadow: 0 4px $primary-color;
       transform: translateY(5px);
     }
   }
@@ -219,7 +220,7 @@ form {
   a {
     text-transform: uppercase;
     font-weight: bold;
-    color: #2B3467;
+    color: $primary-color;
     padding-left: 10px;
     cursor: pointer;
     &:hover {

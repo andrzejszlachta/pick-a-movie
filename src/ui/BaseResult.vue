@@ -67,17 +67,18 @@ const rating = computed(()=> {
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 .result {
-  background-color: #FCFFE7;
+  background-color: $background-color;
   padding: 3%;
   margin: 15px 0;
-  border: 3px solid #2B3467;
+  border: 3px solid $primary-color;
   border-radius: 20px;
   &:is(.results__info + .result) {
     border-top: none;
     border-radius: 0 0 20px 20px;
     .result__title {
-      border-top: 2px solid #2B3467;
+      border-top: 2px solid $primary-color;
       padding-top: 30px;
       margin-top: -30px;
     }
@@ -95,7 +96,7 @@ const rating = computed(()=> {
     .lang {
       text-transform: uppercase;
       margin-right: 5px;
-      border: 1px solid #2B3467;
+      border: 1px solid $primary-color;
       padding: 2px 4px;
     }
   }
@@ -105,7 +106,7 @@ const rating = computed(()=> {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    border-bottom: 2px solid #2B3467;
+    border-bottom: 2px solid $primary-color;
     padding-bottom: 20px;
   }
   .result__container {
@@ -121,7 +122,7 @@ const rating = computed(()=> {
       font-size: 1.2rem;
       .data__overview {
         margin-top: 0;
-        box-shadow: 0 0 3px 1px #2B3467;
+        box-shadow: 0 0 3px 1px $primary-color;
         padding: 3%;
       }
       .data__info {
@@ -135,15 +136,15 @@ const rating = computed(()=> {
         .votes {
           .rating {
             display: inline-block;
-            background-color: rgb(202, 202, 77);
+            background-color: $rating-average;
             color: #fff;
             padding: 3px 5px;
             border-radius: 15px;
             &.high {
-              background-color: rgb(95, 218, 95);
+              background-color: $rating-good;
             }
             &.low {
-              background-color: #EB455F;
+              background-color: $rating-bad;
             }
           }
         }

@@ -71,9 +71,10 @@ function switchNav() {
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 header {
   position: relative;
-  background-color: #2B3467;
+  background-color: $primary-color;
   margin-bottom: 20px;
   &::after {
     position: absolute;
@@ -81,8 +82,8 @@ header {
     content: '';
     height: 20px;
     width: 100%;
-    background: rgb(186,215,233);
-    background: linear-gradient(180deg, #2b3467 25%, #bad7e9 75%);
+    background: $secondary-color;
+    background: linear-gradient(180deg, $primary-color 25%, $secondary-color 75%);
     z-index: -1;
   }
   .header-container.standard {
@@ -120,7 +121,7 @@ header {
             transform: translateX(5px) rotate(90deg);
           }
           a {
-            text-shadow: 0 0 2px black;
+            text-shadow: 0 0 2px $font-black;
             display: block;
             padding: 10px;
             text-decoration: none;
@@ -130,13 +131,13 @@ header {
             letter-spacing: 1px;
             white-space: nowrap;
             &:hover {
-              color: #EB455F;
+              color: $alt-color;
               &::after {
                 transform: translateY(0);
                 opacity: 1;
               }
             &:hover .arrow {
-              color: #EB455F;
+              color: $alt-color;
             }
             }
             &::after {
@@ -144,7 +145,7 @@ header {
               content: '';
               height: 3px;
               width: 100%;
-              background-color: #EB455F;
+              background-color: $alt-color;
               transform: translateY(15px);
               opacity: 0;
               transition: transform .2s ease-out, opacity .2s ease-out;
@@ -160,9 +161,9 @@ header {
           padding: 10px;
           cursor: pointer;
           &:hover {
-            color: #EB455F;
+            color: $alt-color;
             .arrow {
-              color: #EB455F;
+              color: $alt-color;
             }
           }
         }
@@ -173,7 +174,7 @@ header {
           &:has(.inner-list)::after {
             position: absolute;
             content: '';
-            background-color: #2B3467;
+            background-color: $primary-color;
             width: 183px;
             height: 200px;
             bottom: 5px;
@@ -190,8 +191,8 @@ header {
             z-index: -1;
             display: flex;
             flex-flow: column wrap;
-            background-color: #2B3467;
-            border: 1px solid #BAD7E9;
+            background-color: $primary-color;
+            border: 1px solid $secondary-color;
             border-top: none;
             transform: translateY(-100%);
             transition: transform .3s ease-out;
@@ -221,15 +222,15 @@ header {
         font-size: 2rem;
         background-color: transparent;
         outline: none;
-        border: 3px solid white;
+        border: 3px solid $font-white;
         font-weight: bold;
-        color: white;
+        color: $font-white;
         cursor: pointer;
         transition: color .2s ease-out, border-color .2s ease-out;
         &:hover,
         &:focus {
-          color: #EB455F;
-          border-color: #EB455F;
+          color: $alt-color;
+          border-color: $alt-color;
         }
       }
       nav {
@@ -242,8 +243,8 @@ header {
         font-weight: bold;
         display: flex;
         flex-flow: column wrap;
-        background-color: #2B3467;
-        border: 1px solid #BAD7E9;
+        background-color: $primary-color;
+        border: 1px solid $secondary-color;
         border-top: none;
         border-right: none;
         margin: 0;
@@ -257,16 +258,16 @@ header {
             margin-right: 10px;
             padding-right: 10px;
             a {
-              text-shadow: 0 0 2px black;
+              text-shadow: 0 0 2px $font-black;
               display: block;
               padding: 10px;
               text-decoration: none;
               font-size: 1.4rem;
-              color: white;
+              color: $font-white;
               text-transform: uppercase;
               letter-spacing: 1px;
               &:hover {
-                color: #EB455F;
+                color: $alt-color;
                 &::after {
                   transform: translateY(0);
                   opacity: 1;
@@ -277,7 +278,7 @@ header {
                 content: '';
                 height: 3px;
                 width: 100%;
-                background-color: #EB455F;
+                background-color: $alt-color;
                 transform: translateY(15px);
                 opacity: 0;
                 transition: transform .2s ease-out, opacity .2s ease-out;
@@ -289,12 +290,12 @@ header {
             font-weight: bold;
             text-transform: uppercase;
             padding-left: 10px;
-            color: gray;
+            color: $font-disabled;
             margin-top: 10px;
           }
           ul.inner-list {
             border: none;
-            color: white;
+            color: $font-white;
           }
         }
       }

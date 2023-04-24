@@ -23,11 +23,12 @@ const badgeName = computed(()=> {
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
   .badge {
     padding: 5px 7px;
     border-radius: 7px;
-    background-color: #EB455F;
-    color: #fff;
+    background-color: $badge-bg;
+    color: $badge-font;
     margin-right: 5px;
     margin-bottom: 5px;
     font-weight: bold;

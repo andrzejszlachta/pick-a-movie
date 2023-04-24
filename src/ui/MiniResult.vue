@@ -91,11 +91,12 @@ const rating = computed(()=> {
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 .result {
-  background-color: #FCFFE7;
+  background-color: $background-color;
   padding: 3%;
   margin: 15px 0;
-  border: 3px solid #2B3467;
+  border: 3px solid $primary-color;
   border-radius: 20px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -104,7 +105,7 @@ const rating = computed(()=> {
   gap: 1%;
   .result__data {
     grid-area: data;
-    border: 3px solid #2B3467;
+    border: 3px solid $primary-color;
     padding: 0 3% 6%;
     .result__data--title {
       font-family: 'Merriweather', serif;
@@ -136,15 +137,15 @@ const rating = computed(()=> {
       }
       .rating {
         display: inline-block;
-        background-color: rgb(202, 202, 77);
-        color: #fff;
+        background-color: $rating-average;
+        color: $font-white;
         padding: 3px 5px;
         border-radius: 15px;
         &.high {
-          background-color: rgb(95, 218, 95);
+          background-color: $rating-good;
         }
         &.low {
-          background-color: #EB455F;
+          background-color: $alt-color;
         }
       }
     }
@@ -153,7 +154,7 @@ const rating = computed(()=> {
     grid-area: img;
     display: flex;
     justify-content: center;
-    border: 3px solid #2B3467;
+    border: 3px solid $primary-color;
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;

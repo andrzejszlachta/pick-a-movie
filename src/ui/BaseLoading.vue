@@ -7,6 +7,7 @@
 </template>
 
 <style lang="scss" scoped>
+@import '@/_variables';
   @keyframes spin {
     0% { opacity: 1 }
     100% { opacity: 0 }
@@ -35,7 +36,7 @@
     top: 48px;
     position: absolute;
     animation: spin linear 1s infinite;
-    background: #EB455F;
+    background: $alt-color;
     width: 24px;
     height: 48px;
     border-radius: 12px / 24px;

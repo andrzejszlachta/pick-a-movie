@@ -128,11 +128,12 @@ async function getDetails() {
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 .result {
-  background-color: #FCFFE7;
+  background-color: $background-color;
   padding: 3%;
   margin: 15px auto;
-  border: 3px solid #2B3467;
+  border: 3px solid $primary-color;
   border-radius: 20px;
   .result-container {
     display: flex;
@@ -154,7 +155,7 @@ async function getDetails() {
     .lang {
       text-transform: uppercase;
       margin-right: 10px;
-      border: 2px solid #2B3467;
+      border: 2px solid $primary-color;
       border-radius: 10px;
       padding: 2px 4px;
     }
@@ -170,7 +171,7 @@ async function getDetails() {
       margin-top: 50px;
     }
     .box {
-      box-shadow: 0 0 3px 1px #2B3467;
+      box-shadow: 0 0 3px 1px $primary-color;
       padding: 6%;
       width: 100%;
       margin-top: 10px;
@@ -203,24 +204,24 @@ async function getDetails() {
       }
       .rating {
         display: inline-block;
-        background-color: rgb(202, 202, 77);
-        color: #fff;
+        background-color: $rating-average;
+        color: $font-white;
         padding: 3px 5px;
         border-radius: 15px;
         &.high {
-        background-color: rgb(95, 218, 95);
+        background-color: $rating-good;
         }
         &.low {
-          background-color: #EB455F;
+          background-color: $alt-color;
         }
       }
       td.gain {
         font-weight: bold;
-        color: rgb(95, 218, 95);
+        color: $rating-good;
       }
       td.loss {
         font-weight: bold;
-        color: #EB455F;
+        color: $rating-bad;
       }
     }
     .result__companies {
@@ -278,9 +279,9 @@ async function getDetails() {
       right: 5px;
       z-index: 9;
       font-size: 5rem;
-      border: 3px solid #2B3467;
+      border: 3px solid $primary-color;
       border-radius: 50%;
-      color: #2B3467;
+      color: $primary-color;
       width: 110px;
       height: 110px;
       display: flex;
@@ -288,10 +289,10 @@ async function getDetails() {
       align-items: center;
       cursor: pointer;
       transition: transform .3s ease-out;
-      background-color: #BAD7E9;
+      background-color: $secondary-color;
       &:hover {
-        color: #EB455F;
-        border-color: #EB455F;
+        color: $alt-color;
+        border-color: $alt-color;
         transform: translateY(-30px);
       }
     }

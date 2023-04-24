@@ -9,6 +9,7 @@
 </template>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 footer {
   position: relative;
   min-height: 100px;
@@ -16,8 +17,8 @@ footer {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #2B3467;
-  color: white;
+  background-color: $primary-color;
+  color: $font-white;
   margin-top: 20px;
   &::before {
     position: absolute;
@@ -25,8 +26,8 @@ footer {
     content: '';
     height: 20px;
     width: 100%;
-    background: rgb(186,215,233);
-    background: linear-gradient(180deg, #bad7e9 25%, #2b3467 75%);
+    background: $secondary-color;
+    background: linear-gradient(180deg, $secondary-color 25%, $primary-color 75%);
   }
   ul.links {
     display: flex;
@@ -39,7 +40,7 @@ footer {
           width: 50px;
           height: 50px;
           fill: currentColor;
-          color: white;
+          color: $font-white;
           transform: scale(1);
           transition: transform .2s ease-in-out;
           &:hover {

@@ -21,6 +21,7 @@ const props = defineProps({
 </script>
 
 <style lang="scss">
+@import '@/_variables';
 button.base-btn {
   font-size: 1.4rem;
   border: none;
@@ -29,41 +30,41 @@ button.base-btn {
   background-color: transparent;
   &:hover a,
   &:hover span {
-    border-color: #EB455F;
-    color: #EB455F;
+    border-color: $btn-hover;
+    color: $btn-hover;
   }
   &.dark a,
   &.dark span {
-    border-color: #2B3467;
-    color: #2B3467;
+    border-color: $btn-dark;
+    color: $btn-dark;
     &:hover {
-      border-color: #EB455F;
-      color: #EB455F;
+      border-color: $btn-hover;
+      color: $btn-hover;
     }
   }
   a, span {
     display: block;
-    border: 3px solid white;
+    border: 3px solid $btn-light;
     padding: 10px 20px;
     font-family: 'Merriweather', serif;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 3px;
     text-decoration: none;
-    color: white;
+    color: $btn-light;
     transition: color .2s ease-out, border-color .2s ease-out;
     cursor: pointer;
   }
   &.disabled {
     &.dark a,
     &.dark span {
-      border-color: grey;
-      color: grey;
+      border-color: $btn-disabled;
+      color: $btn-disabled;
       cursor: not-allowed;
     }
     a, span {
-      border-color: grey;
-      color: grey;
+      border-color: $btn-disabled;
+      color: $btn-disabled;
       cursor: not-allowed;
     }
   }

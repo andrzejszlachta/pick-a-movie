@@ -5,6 +5,7 @@
 </template>
 
 <style lang="scss" scoped>
+@import '@/_variables';
   @keyframes spin {
     0% { opacity: 1 }
     100% { opacity: 0 }
@@ -25,7 +26,7 @@
   .spinner__bar div {
     position: absolute;
     animation: spin linear 1s infinite;
-    background: #EB455F;
+    background: $alt-color;
     width: 12px;
     height: 24px;
     border-radius: 6px / 12px;

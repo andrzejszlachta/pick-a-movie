@@ -56,6 +56,7 @@ function cancelClick() {
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 .backdrop {
   position: fixed;
   top: 0;
@@ -86,7 +87,7 @@ dialog {
   user-select: none;
   opacity: 1;
   header {
-    background-color: #2B3467;
+    background-color: $primary-color;
     color: white;
     width: 100%;
     min-height: 3rem;

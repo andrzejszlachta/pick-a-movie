@@ -30,6 +30,7 @@ tryAutoLogin()
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Acme&family=Lato&family=Merriweather:wght@400;700&display=swap');
+@import '@/_variables';
 
 *, *::after, *::before {
   box-sizing: border-box;
@@ -49,13 +50,13 @@ html {
       h2 {
         font-size: 1.8rem;
         text-align: center;
-        background-color: #2B3467;
+        background-color: $primary-color;
         color: #fff;
         padding: 20px 10px;
         margin: 1rem -10px;
       }
       main {
-        background-color: #BAD7E9;
+        background-color: $secondary-color;
         padding: 20px 10px;
       }
       .max-width {

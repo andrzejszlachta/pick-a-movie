@@ -14,26 +14,27 @@ const store = useStore()
 </script>
 
 <style lang="scss" scoped>
+@import '@/_variables';
 .messages {
   font-family: "Merriweather", serif;
   position: fixed;
-  color: black;
+  color: $font-black;
   top: 0;
   right: 0;
   width: 250px;
   max-width: 100%;
-  border: 2px solid #2B3467;
-  background-color: #FCFFE7;
+  border: 2px solid $primary-color;
+  background-color: $background-color;
   border-radius: 7px;
   transition: height .5s ease-in-out;
   .messages__item {
     padding: 5px;
     font-weight: bold;
     &.error {
-      color: #EB455F;
+      color: $msg-error;
     }
     &.success {
-      color: green;
+      color: $msg-success;
     }
   }
 }
