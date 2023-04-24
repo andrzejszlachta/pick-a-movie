@@ -78,9 +78,9 @@ html {
   opacity: 1;
 }
 .main-enter-active {
-  transition: opacity .3s ease-out;
+  transition: opacity .3s ease-in;
 }
 .main-leave-active {
-  transition: opacity .3s ease-in;
+  transition: opacity .3s ease-out;
 }
 </style>
