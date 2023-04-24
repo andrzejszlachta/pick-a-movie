@@ -59,7 +59,11 @@ export default createStore({
       let response = await fetch(payload.url);
       const responseData = await response.json();
       if (!response.ok) {
-        const error = new Error(responseData.message || 'Failed to fetch data!');
+        const error = new Error(responseData.status_message || 'Failed to fetch data!');
+        context.dispatch('displayMessage', {
+          value: responseData.status_message || 'Failed to fetch data!',
+          type: 'error'
+        })
         throw error
       }
       context.state[payload.savePath].push(responseData)

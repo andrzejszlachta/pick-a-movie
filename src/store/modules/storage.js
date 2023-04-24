@@ -13,7 +13,11 @@ export default {
       })
       const responseData = await response.json()
       if (!response.ok) {
-        const error = new Error(responseData.message || 'Failed to send');
+        const error = new Error(responseData.status_message || 'Failed to send');
+        context.dispatch('displayMessage', {
+          value: responseData.status_message || 'Failed to send',
+          type: 'error'
+        })
         throw error;
       }
       localStorage.setItem('watchList', JSON.stringify(context.getters.watchList));
@@ -30,7 +34,11 @@ export default {
       const responseData = await response.json()
 
       if (!response.ok) {
-        const error = new Error(responseData.message || 'Failed to send request');
+        const error = new Error(responseData.status_message || 'Failed to send request');
+        context.dispatch('displayMessage', {
+          value: responseData.status_message || 'Failed to send request',
+          type: 'error'
+        })
         throw error;
       }
       if (!responseData) return

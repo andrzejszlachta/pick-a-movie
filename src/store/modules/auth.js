@@ -43,8 +43,12 @@ export default {
       const responseData = await response.json()
 
       if (!response.ok) {
-          const error = new Error(responseData.message || 'Failed to authenticate. Check your login data.');
+          const error = new Error(responseData.status_message || 'Failed to authenticate. Check your login data.');
           context.state.error = error
+          context.dispatch('displayMessage', {
+            value: responseData.status_message || 'Failed to authenticate. Check your login data.',
+            type: 'error'
+          })
           throw error
       }
       context.state.error = null
