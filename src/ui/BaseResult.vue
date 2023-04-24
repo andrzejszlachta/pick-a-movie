@@ -110,6 +110,7 @@ const rating = computed(()=> {
   }
   .result__container {
     display: flex;
+    align-items: center;
     img {
       width: 342px;
       max-width: 100%;
