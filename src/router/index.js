@@ -11,6 +11,7 @@ import UpcomingList from '../pages/lists/UpcomingList.vue'
 import ViewDetails from '../pages/ViewDetails.vue'
 import LoginPage from '../pages/LoginPage.vue'
 import AccountDetails from '../pages/AccountDetails.vue'
+import NotFound from '../pages/NotFound.vue'
 
 import store from '../store/index.js'
 
@@ -76,6 +77,11 @@ const routes = [
     name: 'account',
     component: AccountDetails,
     meta: { requiresAuth: true },
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: NotFound,
   },
 ]
 
