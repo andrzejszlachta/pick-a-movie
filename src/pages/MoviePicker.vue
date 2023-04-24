@@ -147,6 +147,7 @@ async function submitSearch() {
     savePath: 'searchResults',
   })
   isLoading.value = false
+  document.querySelector('.results').scrollIntoView()
 }
 
 // infinite scroll
