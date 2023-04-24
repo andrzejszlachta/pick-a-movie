@@ -3,7 +3,7 @@
     <h3>That page doesn't exist!</h3>
     <p>Sorry, the page you were looking for could not be found.</p>
     <p class="timer">{{ counter }}</p>
-    <base-button dark><router-link :to="'/home'">Home page</router-link></base-button>
+    <base-button dark><router-link :to="'/home'">Return</router-link></base-button>
   </div>
 </template>
 
@@ -18,7 +18,6 @@ function startTimer() {
     if (counter.value > 0) counter.value--
     if (counter.value <= 0) {
       clearInterval(timer)
-      console.log('base', router);
       if (router.options.history.base) {
         router.back()
       } else {
@@ -44,7 +43,7 @@ startTimer()
     margin-bottom: 10%;
   }
   .timer {
-    font-size: 2rem;
+    font-size: 4rem;
     font-weight: bold;
   }
 }
