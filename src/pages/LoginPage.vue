@@ -1,44 +1,42 @@
 <template>
-  <!-- login -->
   <div class="container">
     <form class="login" v-if="signingType === 'login'">
-      <p class="title">Sign In</p>
-    <div class="inputs">
-      <div class="inputs__container">
-        <input type="text" name="email" autocomplete="off" required v-model.trim="email" @blur="validate">
-        <label for="email">Email</label>
+        <p class="title">Sign In</p>
+      <div class="inputs">
+        <div class="inputs__container">
+          <input type="text" name="email" autocomplete="off" required v-model.trim="email" @blur="validate">
+          <label for="email">Email</label>
+        </div>
+        <div class="inputs__container">
+          <input type="password" name="password" autocomplete="off" required v-model.trim="password" @blur="validate">
+          <label for="password">Password</label>
+        </div>
       </div>
-      <div class="inputs__container">
-        <input type="password" name="password" autocomplete="off" required v-model.trim="password" @blur="validate">
-        <label for="password">Password</label>
+      <div class="error" v-if="store.state.auth.error">{{ store.state.auth.error }}</div>
+      <button @click.prevent="submitForm">Sign In</button>
+      <p>Don't have an account? <a href="#" @click="switchSigningType('register')">Sign up now!</a></p>
+    </form>
+    <form class="register" v-else>
+      <p class="title">Register</p>
+      <div class="inputs">
+        <div class="inputs__container">
+          <input type="text" name="email" autocomplete="off" required v-model.trim="email" @blur="validate">
+          <label for="email">Email</label>
+        </div>
+        <div class="inputs__container">
+          <input type="password" name="password" autocomplete="off" required v-model.trim="password" @blur="validate">
+          <label for="password">Password</label>
+        </div>
+        <div class="inputs__container">
+          <input type="password" name="repeatPassword" autocomplete="off" required v-model.trim="repeatPassword" @blur="validate">
+          <label for="repeatPassword">Repeat password</label>
+        </div>
       </div>
-    </div>
-    <div class="error" v-if="store.state.auth.error">{{ store.state.auth.error }}</div>
-    <button @click.prevent="submitForm">Sign In</button>
-    <p>Don't have an account? <a href="#" @click="switchSigningType('register')">Sign up now!</a></p>
-  </form>
-  <!-- register  -->
-  <form class="register" v-else>
-    <p class="title">Register</p>
-    <div class="inputs">
-      <div class="inputs__container">
-        <input type="text" name="email" autocomplete="off" required v-model.trim="email" @blur="validate">
-        <label for="email">Email</label>
-      </div>
-      <div class="inputs__container">
-        <input type="password" name="password" autocomplete="off" required v-model.trim="password" @blur="validate">
-        <label for="password">Password</label>
-      </div>
-      <div class="inputs__container">
-        <input type="password" name="repeatPassword" autocomplete="off" required v-model.trim="repeatPassword" @blur="validate">
-        <label for="repeatPassword">Repeat password</label>
-      </div>
-    </div>
-    <div class="error" v-if="store.state.auth.error">{{ store.state.auth.error }}</div>
-    <button @click.prevent="submitForm">Sign Up</button>
-    <p>Already have an account? <a href="#" @click="switchSigningType('login')">Sign in!</a></p>
-  </form>
-</div>
+      <div class="error" v-if="store.state.auth.error">{{ store.state.auth.error }}</div>
+      <button @click.prevent="submitForm">Sign Up</button>
+      <p>Already have an account? <a href="#" @click="switchSigningType('login')">Sign in!</a></p>
+    </form>
+  </div>
 </template>
 
 <script setup>
