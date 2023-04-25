@@ -65,7 +65,8 @@ export default createStore({
           type: 'error'
         })
       }
-      if (responseData.id || responseData.page) context.state[payload.savePath].push(responseData)
+      if (payload.savePath === 'details' && responseData.success === false) return
+      context.state[payload.savePath].push(responseData)
     },
     async getDetails(context, payload) {
       await context.dispatch('getGenresList')
