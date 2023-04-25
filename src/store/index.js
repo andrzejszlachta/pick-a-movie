@@ -22,6 +22,7 @@ export default createStore({
     didAutoLogout: false,
     messages: [],
     isLoading: false,
+    viewDetailsLoaded: false,
   },
   getters: {
     getTopList(state) {
@@ -59,24 +60,23 @@ export default createStore({
       let response = await fetch(payload.url);
       const responseData = await response.json();
       if (!response.ok) {
-        const error = new Error(responseData.status_message || 'Failed to fetch data!');
         context.dispatch('displayMessage', {
           value: responseData.status_message || 'Failed to fetch data!',
           type: 'error'
         })
-        throw error
       }
-      context.state[payload.savePath].push(responseData)
+      if (responseData.id) context.state[payload.savePath].push(responseData)
     },
     async getDetails(context, payload) {
       await context.dispatch('getGenresList')
-
+      context.state.viewDetailsLoaded = false
       const fullURL = `https://api.themoviedb.org/3/movie/${payload}?api_key=${context.state.API}&language=en-US`
 
       //dont call api request if already data stored locally
       if (context.state.details.find(obj => obj.id === payload) !== undefined) return
        
       await context.dispatch('sendApiRequest', {url: fullURL, savePath: 'details'})
+      context.state.viewDetailsLoaded = true
     },
     async getGenresList(context) {
       const fullURL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${context.state.API}&language=en-US`
