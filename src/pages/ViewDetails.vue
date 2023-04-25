@@ -76,7 +76,7 @@
         </div>
       </div>
     </div>
-    <div v-if="store.state.viewDetailsLoaded" class="result result__nodata">
+    <div v-else-if="!data && store.state.viewDetailsLoaded" class="result result__nodata max-width">
       <p>No data available</p>
       <base-button dark><span @click="router.back()">Go back</span></base-button>
     </div>
