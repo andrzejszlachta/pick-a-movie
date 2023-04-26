@@ -13,7 +13,6 @@
               <li @click="blur"><router-link to="/top">Top Rated</router-link></li>
               <li @click="blur"><router-link to="/trending">Trending</router-link></li>
               <li @click="blur"><router-link to="/upcoming">Upcoming</router-link></li>
-              <li @click="blur"><router-link to="/latest">Latest</router-link></li>
             </ul>
           </li>
         </ul>
@@ -36,7 +35,6 @@
                 <li><router-link to="/top">Top Rated</router-link></li>
                 <li><router-link to="/trending">Trending</router-link></li>
                 <li><router-link to="/upcoming">Upcoming</router-link></li>
-                <li><router-link to="/latest">Latest</router-link></li>
               </ul>
             </li>
             <li><router-link to="/login">{{ accountText }}</router-link></li>

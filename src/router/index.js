@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../pages/HomePage.vue'
 import AboutPage from '../pages/AboutPage.vue'
 import MoviePicker from '../pages/MoviePicker.vue'
-import LatestList from '../pages/lists/LatestList.vue'
 import PopularList from '../pages/lists/PopularList.vue'
 import TopList from '../pages/lists/TopList.vue'
 import TrendingList from '../pages/lists/TrendingList.vue'
@@ -34,11 +33,6 @@ const routes = [
     path: '/search',
     name: 'search',
     component: MoviePicker
-  },
-  {
-    path: '/latest',
-    name: 'latest',
-    component: LatestList
   },
   {
     path: '/popular',

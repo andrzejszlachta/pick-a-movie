@@ -4,7 +4,6 @@ export default {
     topList: [],
     trendingList: [],
     upcomingList: [],
-    latestList: [],
   },
   actions: {
     async sendRequest(context, payload) {
@@ -40,9 +39,6 @@ export default {
     },
     getUpcomingList(state) {
       return state.upcomingList
-    },
-    getLatestList(state) {
-      return state.latestList
     },
   },
 }
