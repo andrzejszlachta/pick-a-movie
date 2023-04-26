@@ -3,11 +3,12 @@ export default {
   actions: {
     async saveWatchList(context) {
       const userId = context.getters.userId
+      const token = context.getters.token
       const watchList = {
         watchList: [...context.getters.watchList],
         watchedList: [...context.getters.watchedList],
       }
-      const response = await fetch(`https://pick-a-movie-as-default-rtdb.europe-west1.firebasedatabase.app/watchLists/${userId}.json`, {
+      const response = await fetch(`https://pick-a-movie-as-default-rtdb.europe-west1.firebasedatabase.app/watchLists/${userId}.json?auth=${token}`, {
         method: 'PUT',
         body: JSON.stringify(watchList)
       })
