@@ -16,7 +16,7 @@
         <div class="data__info">
           <p class="release" v-if="data.release_date"><span>Release date: </span>{{ data.release_date }}</p>
           <div class="votes" v-if="data.vote_average || data.vote_count">
-            <p v-if="data.vote_average">Average rating: <span class="rating" :class="rating">{{ data.vote_average }}</span></p>
+            <p v-if="data.vote_average">Average rating: <span class="rating" :class="rating">{{ data.vote_average.toFixed(2) }}</span></p>
             <p v-if="data.vote_count">Vote count: {{ data.vote_count }}</p>
           </div>
         </div>

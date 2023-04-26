@@ -10,7 +10,8 @@
         </div>
         <div class="result__details">
           <table>
-            <tr v-if="data.status && data.release_date"><th>{{ data.status }}: </th><td>{{ data.release_date }}</td></tr>        
+            <tr v-if="data.status"><th>Status: </th><td>{{ data.status }}</td></tr>
+            <tr v-if="data.release_date"><th>Release date: </th><td>{{ data.release_date }}</td></tr>  
             <tr v-if="data.budget"><th>Budget: </th><td>{{ moneyToString(data.budget) }} USD</td></tr>
             <tr v-if="data.revenue"><th>Revenue: </th><td>{{ moneyToString(data.revenue) }} USD</td></tr>
             <tr v-if="data.revenue && data.budget"><th>Balance: </th><td :class="{ gain: balance > 0, loss: balance < 0 }">{{ moneyToString(balance) }} USD</td></tr>
@@ -80,6 +81,7 @@
       <p>No data available</p>
       <base-button dark><span @click="router.back()">Go back</span></base-button>
     </div>
+    <base-spinner v-else />
   </div>
 </template>
 
@@ -130,196 +132,205 @@ async function getDetails() {
   await store.dispatch('getDetails', props.id)
   }
  getDetails()
- 
+
 </script>
 
 <style lang="scss" scoped>
 @import '@/_variables';
-.result__nodata {
-    text-align: center;
-    font-weight: bold;
-    font-size: 2rem;
-    p {
-      margin-bottom: 5rem;
+.container {
+  min-height: 100%;
+  .result__nodata {
+      text-align: center;
+      font-weight: bold;
+      font-size: 2rem;
+      p {
+        margin-bottom: 5rem;
+      }
+    }
+  .result {
+    background-color: $background-color;
+    padding: 3%;
+    margin: 15px auto;
+    border: 3px solid $primary-color;
+    border-radius: 20px;
+    .result-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .result__title {
+        font-family: 'Acme', sans-serif;
+        font-size: 2rem;
+        letter-spacing: 1px;
+        text-align: center;
+        @media (min-width: 750px) {
+          font-size: 3rem;
+        }
+      }
+      .result__original_title {
+        margin-top: -25px;
+        font-size: 2rem;
+      }
+      .lang {
+        text-transform: uppercase;
+        margin-right: 10px;
+        border: 2px solid $primary-color;
+        border-radius: 10px;
+        padding: 2px 4px;
+      }
+      img.result__poster {
+        max-height: 1000px;
+        max-width: 100%;
+        margin-bottom: 50px;
+      }
+      .result__badges {
+        margin: 30px 0;
+      }
+      .result__overview.box {
+        margin-top: 50px;
+      }
+      .box {
+        box-shadow: 0 0 3px 1px $primary-color;
+        padding: 6%;
+        width: 100%;
+        margin-top: 10px;
+        font-size: 1.2rem;
+        .box__container {
+          width: max-content;
+          margin: 0 auto;
+        }
+        ul {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          li {
+            margin-bottom: 10px;
+          }
+        }
+        p.heading {
+          font-size: 1.4rem;
+          text-align: center;
+          font-weight: bold;
+          margin-bottom: 2rem;
+        }
+      }
+      .result__details table {
+        font-size: 1.2rem;
+        margin-top: 10px;
+        th {
+          text-align: left;
+          padding-right: 10px;
+        }
+        .rating {
+          display: inline-block;
+          background-color: $rating-average;
+          color: $font-white;
+          padding: 3px 5px;
+          border-radius: 15px;
+          &.high {
+          background-color: $rating-good;
+          }
+          &.low {
+            background-color: $alt-color;
+          }
+        }
+        td.gain {
+          font-weight: bold;
+          color: $rating-good;
+        }
+        td.loss {
+          font-weight: bold;
+          color: $rating-bad;
+        }
+      }
+      .result__companies {
+        padding: 6%;
+        .companies {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-around;
+          .company {
+            display: grid;
+            border: 1px solid black;
+            padding: 3%;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            margin-top: 20px;
+            min-width: 250px;
+            min-height: 250px;
+            p {
+              text-align: center;
+            }
+            img {
+              justify-self: center;
+              max-width: 150px;
+              max-height: 150px;
+            }
+          }
+        }
+      }
+      .result__countries {
+        ul {
+          width: max-content;
+        }
+      }
+      .result__languages ul {
+        width: max-content;
+        margin: 16px;
+        list-style:disc;
+      }
+      .result__links ul {
+        text-align: center;
+        li {
+          font-weight: bold;
+          font-size: 1.2rem;
+          transform-origin: center center;
+          transition: transform .1s ease-in-out;
+          margin-top: 1rem;
+          &:hover {
+            transform: scale(1.2);
+          }
+        }
+      }
+      .arrow {
+        position: fixed;
+        bottom: 5px;
+        right: 5px;
+        z-index: 9;
+        font-size: 5rem;
+        border: 3px solid $primary-color;
+        border-radius: 50%;
+        color: $primary-color;
+        width: 110px;
+        height: 110px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: transform .3s ease-out;
+        background-color: $secondary-color;
+        &:hover {
+          color: $alt-color;
+          border-color: $alt-color;
+          transform: translateY(-30px);
+        }
+      }
+      .buttons {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        margin-top: 50px;
+        button {
+          margin: 10px;
+        }
+
+      }
     }
   }
-.result {
-  background-color: $background-color;
-  padding: 3%;
-  margin: 15px auto;
-  border: 3px solid $primary-color;
-  border-radius: 20px;
-  .result-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .result__title {
-      font-family: 'Acme', sans-serif;
-      font-size: 2rem;
-      letter-spacing: 1px;
-      text-align: center;
-      @media (min-width: 750px) {
-        font-size: 3rem;
-      }
-    }
-    .result__original_title {
-      margin-top: -25px;
-      font-size: 2rem;
-    }
-    .lang {
-      text-transform: uppercase;
-      margin-right: 10px;
-      border: 2px solid $primary-color;
-      border-radius: 10px;
-      padding: 2px 4px;
-    }
-    img.result__poster {
-      max-height: 1000px;
-      max-width: 100%;
-      margin-bottom: 50px;
-    }
-    .result__badges {
-      margin: 30px 0;
-    }
-    .result__overview.box {
-      margin-top: 50px;
-    }
-    .box {
-      box-shadow: 0 0 3px 1px $primary-color;
-      padding: 6%;
-      width: 100%;
-      margin-top: 10px;
-      font-size: 1.2rem;
-      .box__container {
-        width: max-content;
-        margin: 0 auto;
-      }
-      ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        li {
-          margin-bottom: 10px;
-        }
-      }
-      p.heading {
-        font-size: 1.4rem;
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 2rem;
-      }
-    }
-    .result__details table {
-      font-size: 1.2rem;
-      margin-top: 10px;
-      th {
-        text-align: left;
-        padding-right: 10px;
-      }
-      .rating {
-        display: inline-block;
-        background-color: $rating-average;
-        color: $font-white;
-        padding: 3px 5px;
-        border-radius: 15px;
-        &.high {
-        background-color: $rating-good;
-        }
-        &.low {
-          background-color: $alt-color;
-        }
-      }
-      td.gain {
-        font-weight: bold;
-        color: $rating-good;
-      }
-      td.loss {
-        font-weight: bold;
-        color: $rating-bad;
-      }
-    }
-    .result__companies {
-      padding: 6%;
-      .companies {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        .company {
-          display: grid;
-          border: 1px solid black;
-          padding: 3%;
-          border-radius: 10px;
-          margin-bottom: 5px;
-          margin-top: 20px;
-          min-width: 250px;
-          min-height: 250px;
-          p {
-            text-align: center;
-          }
-          img {
-            justify-self: center;
-            max-width: 150px;
-            max-height: 150px;
-          }
-        }
-      }
-    }
-    .result__countries {
-      ul {
-        width: max-content;
-      }
-    }
-    .result__languages ul {
-      width: max-content;
-      margin: 16px;
-      list-style:disc;
-    }
-    .result__links ul {
-      
-      li {
-        width:fit-content;
-        font-weight: bold;
-        font-size: 1.2rem;
-        transform-origin: left center;
-        transition: transform .1s ease-in-out;
-        &:hover {
-          transform: scale(1.2);
-        }
-      }
-    }
-    .arrow {
-      position: fixed;
-      bottom: 5px;
-      right: 5px;
-      z-index: 9;
-      font-size: 5rem;
-      border: 3px solid $primary-color;
-      border-radius: 50%;
-      color: $primary-color;
-      width: 110px;
-      height: 110px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      transition: transform .3s ease-out;
-      background-color: $secondary-color;
-      &:hover {
-        color: $alt-color;
-        border-color: $alt-color;
-        transform: translateY(-30px);
-      }
-    }
-    .buttons {
-      display: flex;
-      width: 100%;
-      flex-direction: column;
-      margin-top: 50px;
-      button {
-        margin: 10px;
-      }
-
-    }
+  :is(.spinner) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 </style>
