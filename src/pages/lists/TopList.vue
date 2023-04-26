@@ -14,7 +14,7 @@
         <base-result v-for="result in result.results" :key="result.id" :data="result" :id="result.id"></base-result>
       </div>
     </div>
-    <div class="controls" v-if="topList[0]">
+    <div class="controls" v-if="topList[0] && pagesLoaded < topList[0].total_pages">
       <base-spinner v-if="isLoading" />
       <base-button v-else dark @click="loadNextPage"><span>Load next page</span></base-button>
     </div>
