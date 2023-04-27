@@ -8,6 +8,7 @@ import TopList from '../pages/lists/TopList.vue'
 import TrendingList from '../pages/lists/TrendingList.vue'
 import UpcomingList from '../pages/lists/UpcomingList.vue'
 import ViewDetails from '../pages/ViewDetails.vue'
+import SimilarMovies from '../pages/SimilarMovies.vue'
 import LoginPage from '../pages/LoginPage.vue'
 import AccountDetails from '../pages/AccountDetails.vue'
 import NotFound from '../pages/NotFound.vue'
@@ -58,6 +59,12 @@ const routes = [
     path: '/details/:id',
     name: 'details',
     component: ViewDetails,
+    props: true
+  },
+  {
+    path: '/similar/:id',
+    name: 'similar',
+    component: SimilarMovies,
     props: true
   },
   {

@@ -4,6 +4,7 @@ export default {
     topList: [],
     trendingList: [],
     upcomingList: [],
+    similarList: [],
   },
   actions: {
     async sendRequest(context, payload) {
@@ -39,6 +40,9 @@ export default {
     },
     getUpcomingList(state) {
       return state.upcomingList
+    },
+    getSimilarList(state) {
+      return state.similarList
     },
   },
 }
