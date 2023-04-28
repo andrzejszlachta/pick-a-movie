@@ -68,6 +68,7 @@
           <base-button v-if="!store.getters.isOnWatchList(+props.id) && !store.getters.isOnWatchedList(+props.id)" :data="data" dark @click="showAddToWatchListDialog = true"><span>Add to watch list</span></base-button>
           <base-button v-else :data="data" dark @click="router.push('/account')"><span>Check my lists</span></base-button>
           <base-button dark><router-link :to="`/similar/${this.id}`">View similar movies</router-link></base-button>
+          <base-button dark><span @click="viewReviews">View reviews</span></base-button>
           <base-button dark><span @click="router.back()">Go back</span></base-button>
           <base-dialog 
             @closeDialog="()=>{if (showAddToWatchListDialog) showAddToWatchListDialog = false}"
@@ -83,9 +84,31 @@
       <base-button dark><span @click="router.back()">Go back</span></base-button>
     </div>
     <base-spinner v-else />
+    <div v-if="showReviews && loadedReviews" class="backdrop">
+      <div @click="hidePopup" class="closeBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg>
+      </div>
+      <div v-if="reviews[0] && reviews[0].results.length" class="max-width reviews">
+        <div class="review box" v-for="review in reviews[0].results" :key="review.id">
+          <div class="clearfix">
+            <div class="review__author--avatar">
+              <img v-if="review.author_details.avatar_path" :src="imgSrc(review.author_details.avatar_path)" alt="avatar">
+              <img v-else src="@/assets/dummy.png" alt="avatar">
+            </div>
+            <div v-if="review.content" class="review__content">{{ review.content }}</div>
+            <div class="review__details">
+              <p v-if="review.author" class="review__author--name">{{ review.author }}</p>
+              <span v-if="review.author_details.rating" class="review__details--rating">{{ review.author_details.rating }}/10</span>
+              <span v-if="review.updated_at" class="review__details--date">{{ clearedDate(review.updated_at) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-else-if="reviews[0] && !reviews[0].results.length" class="box max-width noresults">No reviews yet</div>
+      <base-spinner v-else></base-spinner>
+    </div>
   </div>
 </template>
-
 
 <script setup>
 import { defineProps, computed, ref } from 'vue';
@@ -99,6 +122,18 @@ const props = defineProps({id: String})
 const data = computed(()=> {
   return store.getters.getDetails(props.id)
 })
+const showReviews = ref(false)
+const loadedReviews = ref(false)
+const reviews = computed(()=> {
+  console.log(store.getters.getReviews.filter(obj => obj.id === +props.id));
+  return store.getters.getReviews.filter(obj => obj.id === +props.id)
+})
+
+function imgSrc(link) {
+  if (!link) return '@/assets/dummy.png'
+  if (link && link.includes('/https://')) return link.slice(1)
+  return 'https://image.tmdb.org/t/p/w92' + link
+}
 
 const showAddToWatchListDialog = ref(false)
 
@@ -130,10 +165,29 @@ window.onscroll = ()=> {
 }
 
 async function getDetails() {
+  loadedReviews.value = false
   await store.dispatch('getDetails', props.id)
-  }
- getDetails()
+  loadedReviews.value = true
+}
+getDetails()
 
+function showPopup() {
+  showReviews.value = true
+  document.body.classList.add('popup-open')
+}
+function hidePopup() {
+  showReviews.value = false
+  document.body.classList.remove('popup-open')
+}
+
+async function viewReviews() {
+  showPopup()
+  await store.dispatch('getReviews', +props.id)
+}
+
+function clearedDate(date) {
+  return date.split('Z').join(' ').split('T').join(' ').slice(0, 19)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -333,5 +387,130 @@ async function getDetails() {
     top: 50%;
     transform: translate(-50%, -50%);
   }
+  .box {
+    background-color: $background-color;
+    border: 3px solid $primary-color;
+    border-radius: 20px;
+    }
+  .backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: inline-block;
+    overflow-y: scroll;
+    background: rgba(0,0,0,0.8);
+    z-index: 999;
+    .reviews {
+      padding-left: 10px;
+      padding-right: 10px;
+      .review {
+        padding: 3%;
+        .review__content {}
+        .review__details {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 2rem;
+          .review__author--name {
+            font-family: 'Merriweather', serif;
+            text-align: center;
+            &:before {
+              content: ' - ';
+              margin-left: 10px;
+            }
+          }
+          .review__details--rating {
+            background-color: $secondary-color;
+            border-radius: 10px;
+            padding: 5px;
+            margin-left: 10px;
+            margin-right: 10px;
+            color: $font-black;
+          }
+          .review__details--date {
+            text-align: center;
+            color: $font-disabled;
+          }
+        }
+        .review__author--avatar {
+          width: 90px;
+          height: 90px;
+          position: relative;
+          overflow: hidden;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          -ms-border-radius: 50%;
+          -o-border-radius: 50%;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          float: right;
+          margin: 10px;
+          img {
+          height: 100%;
+          width: auto;
+          }
+        }
+      }
+    }
+    .noresults {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 4rem 1rem;
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .closeBtn {
+      position: fixed;
+      top: 30px;
+      right: 30px;
+      width: 80px;
+      height: 80px;
+      padding: 10px;
+      border-radius: 50%;
+      background-color: $alt-color;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9;
+      box-shadow: 0 0 5px 0 black;
+      cursor: pointer;
+    }
+    @media (max-width: 1500px) {
+      .reviews {
+        padding-top: 70px;
+      }
+      .closeBtn {
+        top: 10px;
+        right: 50%;
+        transform: translateX(50%);
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
+}
+.clearfix {
+  overflow: auto;
+  &::after {
+    content: "";
+    clear: both;
+    display: block;
+  }
+}
+</style>
+
+<style>
+body.popup-open {
+  height: 100vh;
+  overflow: hidden;
 }
 </style>

@@ -16,6 +16,7 @@ export default createStore({
     API: 'dcafa276c4fbb7347b91d1e1c1c50ae3',
     genres: [],
     details: [],
+    reviews: [],
     searchResults: [],
     userId: null,
     token: null,
@@ -36,6 +37,9 @@ export default createStore({
     },
     getGenres: (state) => {
       return state.genres
+    },
+    getReviews: (state) => {
+      return state.reviews
     },
     isLoading: (state) => {
       return state.isLoading
@@ -83,6 +87,11 @@ export default createStore({
       if (context.state.genres.length > 0) return
       await context.dispatch('sendApiRequest', {url: fullURL, savePath: 'genres'})
       localStorage.setItem('genres', JSON.stringify(context.state.genres));
+    },
+    async getReviews(context, payload) {
+      // const fullURL = `https://api.themoviedb.org/3/genre/movie/list?api_key=${context.state.API}&language=en-US`
+      const fullURL = `https://api.themoviedb.org/3/movie/${payload}/reviews?api_key=${context.state.API}`
+      await context.dispatch('sendApiRequest', {url: fullURL, savePath: 'reviews'})
     },
     async getSearchResults(context, payload) {
       await context.dispatch('getGenresList')
