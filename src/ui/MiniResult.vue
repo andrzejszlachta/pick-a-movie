@@ -7,18 +7,18 @@
       </div>
       <div class="result__data--info">
         <p class="release" v-if="data.release_date"><span>Release date: </span>{{ data.release_date }}</p>
-        <p v-if="data.vote_average">Average rating: <span class="rating" :class="rating">{{ data.vote_average }}</span></p>
+        <p v-if="data.vote_average">Average rating: <span class="rating" :class="rating">{{ data.vote_average.toFixed(2) }}</span></p>
         <p v-if="data.vote_count">Vote count: {{ data.vote_count }}</p>
       </div>
     </div>
     <div class="result__img" :style="{ backgroundImage: imgSource }"></div>
     <div class="result__buttons-container" v-if="props.type === 'watchList'">
-      <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
+      <base-button dark><router-link :to="`/details/${props.id}`">View details</router-link></base-button>
       <base-button :data="data" dark @click="showMoveToWatchedDialog = true"><span>Mark as watched</span></base-button>
       <base-button :data="data" dark @click="showRemoveFromWatchListDialog = true"><span>Remove from list</span></base-button>
     </div>
     <div class="result__buttons-container" v-else>
-      <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
+      <base-button dark><router-link :to="`/details/${props.id}`">View details</router-link></base-button>
       <base-button :data="data" dark @click="showMoveBackToWatchDialog = true"><span>Watch again</span></base-button>
       <base-button :data="data" dark @click="showRemoveFromWatchedDialog = true"><span>Remove from list</span></base-button>
     </div>

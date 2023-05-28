@@ -67,7 +67,7 @@
         <div class="buttons">
           <base-button v-if="!store.getters.isOnWatchList(+props.id) && !store.getters.isOnWatchedList(+props.id)" :data="data" dark @click="showAddToWatchListDialog = true"><span>Add to watch list</span></base-button>
           <base-button v-else :data="data" dark @click="router.push('/account')"><span>Check my lists</span></base-button>
-          <base-button dark><router-link :to="`/similar/${this.id}`">View similar movies</router-link></base-button>
+          <base-button dark><router-link :to="`/similar/${props.id}`">View similar movies</router-link></base-button>
           <base-button dark><span @click="viewReviews">View reviews</span></base-button>
           <base-button dark><span @click="router.back()">Go back</span></base-button>
           <base-dialog 
