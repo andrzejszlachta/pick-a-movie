@@ -26,7 +26,7 @@
       <base-button v-if="!store.getters.isAuthenticated" dark disabled><span>not logged in</span></base-button>
       <base-button v-else-if="!store.getters.isOnWatchList(+props.id) && !store.getters.isOnWatchedList(+props.id)" :data="data" dark @click="showAddToWatchListDialog = true"><span>Add to watch list</span></base-button>
       <base-button v-else @click.prevent disabled><span>Already on list</span></base-button>
-      <base-button dark><router-link :to="`/details/${this.id}`">View details</router-link></base-button>
+      <base-button dark><router-link :to="`/details/${props.id}`">View details</router-link></base-button>
       <base-dialog 
         @closeDialog="()=>{if (showAddToWatchListDialog) showAddToWatchListDialog = false}"
         :show="showAddToWatchListDialog"
